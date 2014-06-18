@@ -1,0 +1,19 @@
+{
+    "name": "FriendFeed & Co",
+    "version": "1.2",
+    "description": "Разные дополнительные удобства во FriendFeed-е",
+
+    "manifest_version": 2,
+
+    "icons": {
+        "128": "icon128.png"
+    },
+    "content_scripts": [
+        {
+            "all_frames": true,
+            "matches": [ "http://friendfeed.com/*", "https://friendfeed.com/*" ],
+            "js": ["content-script.js"]
+        }
+    ],
+    "permissions": ["storage"]
+}
