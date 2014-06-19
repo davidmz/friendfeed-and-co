@@ -1,6 +1,6 @@
 (function () {
     var normalizeNames = function (element) {
-        if (!fixNames) return;
+        if (!settings["fixNames"]) return;
         var nodes = element.querySelectorAll(".content > .l_profile, .lbody > .l_profile, .name > .l_profile, .foaf > .l_profile");
         for (var i = 0, l = nodes.length; i < l; i++) {
             var node = nodes[i];
@@ -10,6 +10,7 @@
     };
 
     var quoteLinks = function (element) {
+        if (!settings["replyLinks"]) return;
         var nodes = element.querySelectorAll("div.quote");
         for (var i = 0, l = nodes.length; i < l; i++) {
             var node = nodes[i], parent = node.parentNode;
@@ -25,7 +26,15 @@
                 if (e.button != 0) return;
                 e.preventDefault();
                 var login = e.target.parentNode.querySelector("a.l_profile").getAttribute("href").substr(1);
-                var ta = closestParent(e.target, ".body").querySelector("textarea");
+                var body = closestParent(e.target, ".body");
+                var ta = body.querySelector("textarea");
+                if (!ta) {
+                    var comLink = body.querySelector(".l_comment");
+                    if (comLink) {
+                        comLink.click();
+                        ta = body.querySelector("textarea");
+                    }
+                }
                 if (ta) {
                     ta.value += "@" + login + " ";
                     ta.focus();
@@ -36,6 +45,7 @@
     };
 
     var imgOpeners = function (element) {
+        if (!settings["openImages"]) return;
         var nodes = element.querySelectorAll(".images.media a");
         for (var i = 0, l = nodes.length; i < l; i++) {
             var node = nodes[i];
@@ -44,6 +54,29 @@
                 node.href = "http://rss2lj.net/ffimg#" + m[1];
             }
         }
+    };
+
+    var killDuck = function () {
+        var nodes = document.querySelectorAll('body > div[style*="duck"]');
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            var node = nodes[i];
+            node.style.width = 0;
+            node.style.height = 0;
+        }
+    };
+
+
+    var init = function () {
+        if (settings["killDuck"]) killDuck();
+
+        var box = document.createElement("DIV");
+        box.className = "box";
+        box.innerHTML = '<div class="box-bar ffnco">\n    <div class="box-corner"></div>\n    <div class="box-bar-text">&nbsp;</div>\n</div>\n<div class="box-body">\n    <ul>\n        <li><a href="#">Настройки FF&amp;Co</a></li>\n    </ul>\n</div>\n<div class="box-bottom">\n    <div class="box-corner"></div>\n    <div class="box-spacer"></div>\n</div>\n        ';
+        box.querySelector("a").onclick = function (e) {
+            e.preventDefault();
+            window.open(chrome.extension.getURL("options.html"));
+        };
+        document.getElementById("sidebar").appendChild(box);
     };
 
     var improveThis = function (element) {
@@ -73,19 +106,20 @@
     //////////////////////
 
     var bodyEl = document.getElementById("body");
-    var fixNames = true;
+    var settings;
 
-    var m = /^#fixNames=(on|off)$/.exec(location.hash);
-    if (m) {
-        location.hash = "";
-        fixNames = (m[1] == "on");
-        chrome.storage.sync.set({"settings": {"fixNames": fixNames}}, function () {
-            location.reload();
-        });
-    }
+    loadSettings(function (s) {
+        settings = s;
 
-    chrome.storage.sync.get("settings", function (it) {
-        fixNames = (!it || !it.hasOwnProperty("settings") || !it["settings"].hasOwnProperty("fixNames") || it["settings"]["fixNames"]);
+        var m = /^#fixNames=(on|off)$/.exec(location.hash);
+        if (m) {
+            location.hash = "";
+            settings.fixNames = (m[1] == "on");
+            saveSettings(settings, function () { location.reload(); });
+            return;
+        }
+
+        init();
         improveThis(bodyEl);
         observer.observe(bodyEl, { childList: true, subtree: true });
     });

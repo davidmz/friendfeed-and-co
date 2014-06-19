@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FriendFeed &amp; Co, настройки</title>
+    <link rel="stylesheet" type="text/css" href="chrome-bootstrap.css">
+    <script src="settings.js"></script>
+    <script src="options.js"></script>
+</head>
+<body class="chrome-bootstrap">
+<div class="frame">
+    <div class="navigation">
+        <h1>FriendFeed &amp;&nbsp;Co</h1>
+    </div>
+    <div class="mainview view">
+        <div class="selected">
+            <header>
+                <h1>Настройки</h1>
+            </header>
+            <div class="content loading">
+                Загрузка&hellip;
+            </div>
+            <div class="content settings" style="display: none;">
+                <p>
+                    <label>
+                        <input type="checkbox" value="fixNames">
+                        Заменять юзернеймы на логины пользователей
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox" value="replyLinks">
+                        По клику на «облачко» около комментария открывать поле ввода и подставлять в него
+                        @login атвора комментария
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox" value="openImages">
+                        Открывать изображения, прикреплённые к постам, в браузере (по умолчанию FF их скачивает на
+                        диск)
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox" value="killDuck">
+                        Не показыать утку в теме “Duck Hunt”
+                    </label>
+                </p>
+
+                <p>
+                    <button id="save-settings">Сохранить настройки</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
