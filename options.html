@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>FriendFeed &amp; Co, настройки</title>
     <link rel="stylesheet" type="text/css" href="chrome-bootstrap.css">
-    <script src="settings.js"></script>
+    <script src="common.js"></script>
     <script src="options.js"></script>
 </head>
 <body class="chrome-bootstrap">
@@ -24,30 +24,31 @@
                 <p>
                     <label>
                         <input type="checkbox" value="fixNames">
-                        Заменять юзернеймы на логины пользователей
+                        Юзернеймы заменяются на логины пользователей.
                     </label>
                 </p>
 
                 <p>
                     <label>
                         <input type="checkbox" value="replyLinks">
-                        По клику на «облачко» около комментария открывать поле ввода и подставлять в него
-                        @login автора комментария
+                        По клику на «облачко» около комментария открывается поле ввода и в него вставляется
+                        @login автора комментария. Если при клике зажата клавиша Ctrl, то вставляется строка вида
+                        ^^^ — «ссылка» на кликнутый комментарий. Вместе с Ctrl можно также зажать и Shift.
                     </label>
                 </p>
 
                 <p>
                     <label>
                         <input type="checkbox" value="openImages">
-                        Открывать изображения, прикреплённые к постам, в браузере (по умолчанию FF их скачивает на
-                        диск)
+                        Изображения, прикреплённые к постам, открываются в браузере (по умолчанию FF их скачивает на
+                        диск).
                     </label>
                 </p>
 
                 <p>
                     <label>
                         <input type="checkbox" value="killDuck">
-                        Не показыать утку в теме “Duck Hunt”
+                        В теме “Duck Hunt” не показывается утка.
                     </label>
                 </p>
 

@@ -1,19 +1,61 @@
 (function () {
     var normalizeNames = function (element) {
         if (!settings["fixNames"]) return;
-        var nodes = element.querySelectorAll(".content > .l_profile, .lbody > .l_profile, .name > .l_profile, .foaf > .l_profile");
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            var node = nodes[i];
+        toArray(element.querySelectorAll(
+            ".content > .l_profile, .lbody > .l_profile, .name > .l_profile, .foaf > .l_profile"
+        )).forEach(function (node) {
             var login = node.getAttribute("href").substr(1);
             if (node.innerHTML != login) node.innerHTML = login;
+        });
+    };
+
+    var quoteEventHandler = function (e) {
+        if (e.button != 0) return;
+        e.preventDefault();
+        var caps = null;
+        if (e.ctrlKey) {
+            var p = e.target.parentNode;
+            var n = 1;
+            while (true) {
+                p = p.nextElementSibling;
+                if (p && p.classList.contains("comment") && !p.classList.contains("bottomcomment")) {
+                    n++;
+                } else if (p && p.classList.contains("hiddencomments")) {
+                    // pass
+                } else if (p && p.classList.contains("expandcomment")) {
+                    n += parseInt(p.querySelector("a").textContent);
+                } else {
+                    break;
+                }
+            }
+            caps = new Array(n + 1).join("^");
+        }
+        var login = e.target.parentNode.querySelector("a.l_profile").getAttribute("href").substr(1);
+        var body = closestParent(e.target, ".body");
+        var ta = body.querySelector("textarea");
+        if (!ta) {
+            var comLink = body.querySelector(".l_comment");
+            if (comLink) {
+                comLink.click();
+                ta = body.querySelector("textarea");
+            }
+        }
+        if (ta) {
+            if (caps && ta.value == "") {
+                ta.value = caps + " ";
+                if (e.shiftKey) ta.value += "THIS";
+            } else {
+                ta.value += "@" + login + " ";
+            }
+            ta.focus();
+            ta.selectionStart = ta.selectionEnd = ta.value.length;
         }
     };
 
     var quoteLinks = function (element) {
         if (!settings["replyLinks"]) return;
-        var nodes = element.querySelectorAll("div.quote");
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            var node = nodes[i], parent = node.parentNode;
+        toArray(element.querySelectorAll("div.quote")).forEach(function (node) {
+            var parent = node.parentNode;
             var id = parent.getAttribute("id");
             var href = closestParent(parent, ".body").querySelector(".body > .info > .date").href;
             var a = document.createElement("A");
@@ -22,52 +64,31 @@
             a.href = href + "#" + id;
             parent.insertBefore(a, node);
             parent.removeChild(node);
-            a.addEventListener("click", function (e) {
-                if (e.button != 0) return;
-                e.preventDefault();
-                var login = e.target.parentNode.querySelector("a.l_profile").getAttribute("href").substr(1);
-                var body = closestParent(e.target, ".body");
-                var ta = body.querySelector("textarea");
-                if (!ta) {
-                    var comLink = body.querySelector(".l_comment");
-                    if (comLink) {
-                        comLink.click();
-                        ta = body.querySelector("textarea");
-                    }
-                }
-                if (ta) {
-                    ta.value += "@" + login + " ";
-                    ta.focus();
-                    ta.selectionStart = ta.selectionEnd = ta.value.length;
-                }
-            }, false);
-        }
+            a.addEventListener("click", quoteEventHandler, false);
+        });
     };
 
     var imgOpeners = function (element) {
         if (!settings["openImages"]) return;
-        var nodes = element.querySelectorAll(".images.media a");
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            var node = nodes[i];
+        toArray(element.querySelectorAll(".images.media a")).forEach(function (node) {
             var m = /^http:\/\/m\.friendfeed-media\.com\/(.*)/.exec(node.href);
             if (m) {
                 node.href = "http://rss2lj.net/ffimg#" + m[1];
             }
-        }
+        });
     };
 
     var killDuck = function () {
-        var nodes = document.querySelectorAll('body > div[style*="duck"]');
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            var node = nodes[i];
+        if (!settings["killDuck"]) return;
+        toArray(document.querySelectorAll('body > div[style*="duck"]')).forEach(function (node) {
             node.style.width = 0;
             node.style.height = 0;
-        }
+        });
     };
 
 
     var init = function () {
-        if (settings["killDuck"]) killDuck();
+        killDuck();
 
         var box = document.createElement("DIV");
         box.className = "box";
@@ -110,15 +131,6 @@
 
     loadSettings(function (s) {
         settings = s;
-
-        var m = /^#fixNames=(on|off)$/.exec(location.hash);
-        if (m) {
-            location.hash = "";
-            settings.fixNames = (m[1] == "on");
-            saveSettings(settings, function () { location.reload(); });
-            return;
-        }
-
         init();
         improveThis(bodyEl);
         observer.observe(bodyEl, { childList: true, subtree: true });

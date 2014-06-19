@@ -1,3 +1,5 @@
+function toArray(nl) { return Array.prototype.slice.call(nl); }
+
 function loadSettings(callback) {
     var boolNames = ["fixNames", "replyLinks", "openImages", "killDuck"];
     var settings = {};

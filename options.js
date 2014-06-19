@@ -1,5 +1,3 @@
-function toArray(nl) { return Array.prototype.slice.call(nl); }
-
 document.addEventListener("DOMContentLoaded", function () {
     loadSettings(function (settings) {
         var sPage = document.querySelector(".content.settings");
