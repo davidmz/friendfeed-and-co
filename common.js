@@ -1,9 +1,10 @@
 function toArray(nl) { return Array.prototype.slice.call(nl); }
 
 function loadSettings(callback) {
-    var boolNames = ["fixNames", "replyLinks", "openImages", "killDuck"];
+    var boolNames = ["fixNames", "replyLinks", "openImages", "killDuck", "withAvatars"];
     var settings = {};
     boolNames.forEach(function (name) {settings[name] = true;});
+    settings["withAvatars"] = false;
 
     chrome.storage.sync.get("settings", function (it) {
         if (it && ("settings" in it)) {

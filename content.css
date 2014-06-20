@@ -1,0 +1,11 @@
+.entry.with-avatars .comment .quote {
+    background-size: 100%;
+    border-radius:   25%;
+    width:           18px !important;
+    height:          18px !important;
+}
+
+.entry.with-avatars .comment .content {
+    margin-left: 24px !important;
+    min-height:  18px;
+}

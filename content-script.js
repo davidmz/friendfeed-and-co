@@ -52,16 +52,62 @@
         }
     };
 
+    var avatars = {};
+    var getAvatar = function (login, callback) {
+        if (login in avatars) {
+            var a = avatars[login];
+            if (a.url) {
+                callback(a.url);
+            } else {
+                a.callbacks.push(callback);
+            }
+        } else {
+            avatars[login] = {url: null, callbacks: [callback]};
+            fetchAvatar(login, function (login, url) {
+                avatars[login].callbacks.forEach(function (cb) { cb(url); });
+                avatars[login] = {url: url};
+            });
+        }
+    };
+    // Эта функция вызывается по одному разу для каждого логина
+    var fetchAvatar = function (login, callback) {
+        var a = document.querySelector("a[href='/" + login + "']");
+        if (a) {
+            var img = document.querySelector("img[src*='" + a.getAttribute("sid") + "']");
+            if (img) {
+                var url = img.src.replace(/-(\w+)-(\d+)$/, "-small-$2");
+                callback(login, url);
+                return;
+            }
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "http://friendfeed-api.com/v2/picture/" + login + "?size=small");
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+            if (this.status != 200) return;
+            callback(login, URL.createObjectURL(this.response));
+        };
+        xhr.send()
+    };
+
     var quoteLinks = function (element) {
         if (!settings["replyLinks"]) return;
+        if (settings["withAvatars"]) toArray(element.querySelectorAll(".entry:not(.with-avatars)")).forEach(function (node) { node.classList.add("with-avatars"); });
         toArray(element.querySelectorAll("div.quote")).forEach(function (node) {
             var parent = node.parentNode;
+            if (parent.classList.contains("bottomcomment")) return;
             var id = parent.getAttribute("id");
             var href = closestParent(parent, ".body").querySelector(".body > .info > .date").href;
             var a = document.createElement("A");
             a.className = node.className;
             a.title = node.title;
             a.href = href + "#" + id;
+            if (settings["withAvatars"]) {
+                var login = parent.querySelector(".l_profile").getAttribute("href").substr(1);
+                getAvatar(login, function (url) {
+                    a.style.backgroundImage = "url(" + url + ")";
+                });
+            }
             parent.insertBefore(a, node);
             parent.removeChild(node);
             a.addEventListener("click", quoteEventHandler, false);
