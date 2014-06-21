@@ -13,7 +13,7 @@
         if (e.button != 0) return;
         e.preventDefault();
         var caps = null;
-        if (e.ctrlKey) {
+        if (e.metaKey) {
             var p = e.target.parentNode;
             var n = 1;
             while (true) {
