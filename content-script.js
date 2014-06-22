@@ -10,10 +10,10 @@
     };
 
     var quoteEventHandler = function (e) {
-        if (e.button != 0) return;
+        if (!e.target.matches("a.quote") || e.button != 0) return;
         e.preventDefault();
         var caps = null;
-        if (e.metaKey) {
+        if (e.metaKey || e.ctrlKey) {
             var p = e.target.parentNode;
             var n = 1;
             while (true) {
@@ -59,12 +59,12 @@
             if (a.url) {
                 callback(a.url);
             } else {
-                a.callbacks.push(callback);
+                a["callbacks"].push(callback);
             }
         } else {
             avatars[login] = {url: null, callbacks: [callback]};
             fetchAvatar(login, function (login, url) {
-                avatars[login].callbacks.forEach(function (cb) { cb(url); });
+                avatars[login]["callbacks"].forEach(function (cb) { cb(url); });
                 avatars[login] = {url: url};
             });
         }
@@ -93,33 +93,41 @@
     var quoteLinks = function (element) {
         if (!settings["replyLinks"]) return;
         if (settings["withAvatars"]) toArray(element.querySelectorAll(".entry:not(.with-avatars)")).forEach(function (node) { node.classList.add("with-avatars"); });
-        toArray(element.querySelectorAll("div.quote")).forEach(function (node) {
-            var parent = node.parentNode;
-            if (parent.classList.contains("bottomcomment")) return;
-            var id = parent.getAttribute("id");
-            var href = closestParent(parent, ".body").querySelector(".body > .info > .date").href;
-            var a = document.createElement("A");
-            a.className = node.className;
-            a.title = node.title;
-            a.href = href + "#" + id;
-            if (settings["withAvatars"]) {
-                var login = parent.querySelector(".l_profile").getAttribute("href").substr(1);
-                getAvatar(login, function (url) {
-                    a.style.backgroundImage = "url(" + url + ")";
-                });
-            }
-            parent.insertBefore(a, node);
-            parent.removeChild(node);
-            a.addEventListener("click", quoteEventHandler, false);
-        });
+        var el;
+        while (el = element.querySelector(".comments div.quote")) {
+            var parentComments = closestParent(el, ".comments");
+            var href = parentComments.parentNode.querySelector(".body > .info > .date").href;
+            toArray(parentComments.querySelectorAll("div.quote")).forEach(function (node) {
+                var parent = node.parentNode,
+                    id = parent.getAttribute("id"),
+                    a = document.createElement("A");
+                a.className = node.className;
+                a.title = node.title;
+                a.href = href + "#" + id;
+                if (settings["withAvatars"]) {
+                    var login = parent.querySelector(".l_profile").getAttribute("href").substr(1);
+                    getAvatar(login, function (url) { a.style.backgroundImage = "url(" + url + ")"; });
+                }
+                parent.insertBefore(a, node);
+                parent.removeChild(node);
+            });
+        }
     };
 
+    var lightBox = document.createElement("DIV");
+    document.body.appendChild(lightBox);
+    var lightBoxHTML = '<!--suppress HtmlUnknownTarget --><div class="light-box-shadow"><div class="light-box-container"><a href="{{LINK}}" target="_blank"><img src="{{URL}}" class="light-box-img"></a></div></div>';
     var imgOpeners = function (element) {
         if (!settings["openImages"]) return;
         toArray(element.querySelectorAll(".images.media a")).forEach(function (node) {
             var m = /^http:\/\/m\.friendfeed-media\.com\/(.*)/.exec(node.href);
             if (m) {
+                node.dataset["src"] = node.href;
                 node.href = "http://rss2lj.net/ffimg#" + m[1];
+                node.classList.add("light-box-thumbnail");
+            } else if (/\.(jpe?g|png|gif)/i.test(node.href)) {
+                node.dataset["src"] = node.href;
+                node.classList.add("light-box-thumbnail");
             }
         });
     };
@@ -135,6 +143,27 @@
 
     var init = function () {
         killDuck();
+
+        if (settings["replyLinks"]) {
+            document.body.addEventListener("click", quoteEventHandler, false);
+        }
+
+        if (settings["openImages"]) {
+            document.body.addEventListener("keyup", function (e) {
+                if (e.keyCode == 27 && lightBox.innerHTML != "") lightBox.innerHTML = "";
+            });
+
+            document.body.addEventListener("click", function (e) {
+                if (closestParent(e.target, ".light-box-shadow", true)) {
+                    lightBox.innerHTML = "";
+                    return;
+                }
+                var th = closestParent(e.target, ".light-box-thumbnail", true);
+                if (!th || e.button != 0) return;
+                e.preventDefault();
+                lightBox.innerHTML = lightBoxHTML.replace("{{URL}}", th.dataset["src"]).replace("{{LINK}}", th.href);
+            }, false);
+        }
 
         var box = document.createElement("DIV");
         box.className = "box";
@@ -153,9 +182,10 @@
         imgOpeners(element);
     };
 
-    var closestParent = function (element, selector) {
-        var p = element.parentNode;
-        if (p) {
+    var closestParent = function (element, selector, withSelf) {
+        withSelf = withSelf || false;
+        var p = withSelf ? element : element.parentNode;
+        if (p && p.nodeType == Node.ELEMENT_NODE) {
             return p.matches(selector) ? p : closestParent(p, selector);
         }
         return null;
