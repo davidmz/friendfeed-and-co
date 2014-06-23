@@ -1,6 +1,6 @@
 {
     "name": "FriendFeed & Co",
-    "version": "1.7",
+    "version": "1.8",
     "description": "Разные дополнительные удобства во FriendFeed-е",
 
     "manifest_version": 2,
@@ -13,10 +13,13 @@
             "all_frames": true,
             "matches": [ "http://friendfeed.com/*", "https://friendfeed.com/*" ],
             "js": ["common.js", "content-script.js"],
-            "css":["content.css"]
+            "css": ["content.css"]
         }
     ],
     "options_page": "options.html",
     "web_accessible_resources": ["options.html"],
-    "permissions": ["storage", "http://friendfeed-api.com/*", "http://m.friendfeed-media.com/*", "http://i.friendfeed.com/*"]
+    "permissions": ["storage",
+        "http://friendfeed-api.com/*", "http://m.friendfeed-media.com/*", "http://i.friendfeed.com/*",
+        "http://api.instagram.com/*"
+    ]
 }
