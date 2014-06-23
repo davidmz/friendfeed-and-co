@@ -105,8 +105,12 @@
                 a.title = node.title;
                 a.href = href + "#" + id;
                 if (settings["withAvatars"]) {
-                    var login = parent.querySelector(".l_profile").getAttribute("href").substr(1);
-                    getAvatar(login, function (url) { a.style.backgroundImage = "url(" + url + ")"; });
+                    var profile = parent.querySelector(".l_profile");
+                    // элемента может не быть, пример: https://friendfeed.com/aepiots-blogs/a8c56d00/amber-alert-8-month-old-abducted-in-moms-car
+                    if (profile) {
+                        var login = profile.getAttribute("href").substr(1);
+                        getAvatar(login, function (url) { a.style.backgroundImage = "url(" + url + ")"; });
+                    }
                 }
                 parent.insertBefore(a, node);
                 parent.removeChild(node);
