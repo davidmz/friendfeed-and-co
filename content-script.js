@@ -118,33 +118,40 @@
     document.body.appendChild(lightBox);
     var lightBoxHTML = '<!--suppress HtmlUnknownTarget --><div class="light-box-shadow"><div class="light-box-container"><a href="{{LINK}}" target="_blank"><img src="{{URL}}" class="light-box-img"></a></div></div>';
     var imgOpeners = function (element) {
-        if (!settings["openImages"]) return;
-        toArray(element.querySelectorAll(".images.media a:not(.light-box-thumbnail)")).forEach(function (node) {
-            var m = /^http:\/\/m\.friendfeed-media\.com\/(.*)/.exec(node.href);
-            if (m) {
-                node.dataset["src"] = node.href;
-                node.href = "http://rss2lj.net/ffimg#" + m[1];
-                node.classList.add("light-box-thumbnail");
-            } else if (/^http:\/\/www\.flickr\.com\/photos\//.test(node.href)) {
-                var img = node.querySelector("img");
-                if (img && /^https?:\/\/farm\d+\.static\.?flickr\.com\//.test(img.src)) {
-                    node.dataset["src"] = img.src.replace(/_.\.jpg$/, "_b.jpg");
+        if (settings["openImages"]) {
+            toArray(element.querySelectorAll(".images.media a")).forEach(function (node) {
+                var m = /^http:\/\/m\.friendfeed-media\.com\/(.*)/.exec(node.href);
+                if (m) {
+                    node.dataset["src"] = node.href;
+                    node.href = "http://rss2lj.net/ffimg#" + m[1];
+                }
+            });
+        }
+        if (settings["lightBoxedImages"]) {
+            toArray(element.querySelectorAll(".images.media a:not(.light-box-thumbnail)")).forEach(function (node) {
+                if (node.dataset["src"]) {
+                    node.classList.add("light-box-thumbnail");
+                } else if (/^http:\/\/www\.flickr\.com\/photos\//.test(node.href)) {
+                    var img = node.querySelector("img");
+                    if (img && /^https?:\/\/farm\d+\.static\.?flickr\.com\//.test(img.src)) {
+                        node.dataset["src"] = img.src.replace(/_.\.jpg$/, "_b.jpg");
+                        node.classList.add("light-box-thumbnail");
+                    }
+                } else if (/^http:\/\/instagram\.com\/p\//.test(node.href)) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', "http://api.instagram.com/oembed?url=" + encodeURIComponent(node.href));
+                    xhr.responseType = "json";
+                    xhr.onload = function () {
+                        node.dataset["src"] = this.response.url;
+                        node.classList.add("light-box-thumbnail");
+                    };
+                    xhr.send();
+                } else if (/\.(jpe?g|png|gif)/i.test(node.href)) {
+                    node.dataset["src"] = node.href;
                     node.classList.add("light-box-thumbnail");
                 }
-            } else if (/^http:\/\/instagram\.com\/p\//.test(node.href)) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', "http://api.instagram.com/oembed?url=" + encodeURIComponent(node.href));
-                xhr.responseType = "json";
-                xhr.onload = function () {
-                    node.dataset["src"] = this.response.url;
-                    node.classList.add("light-box-thumbnail");
-                };
-                xhr.send();
-            } else if (/\.(jpe?g|png|gif)/i.test(node.href)) {
-                node.dataset["src"] = node.href;
-                node.classList.add("light-box-thumbnail");
-            }
-        });
+            });
+        }
     };
 
     var killDuck = function () {
@@ -163,7 +170,7 @@
             document.body.addEventListener("click", quoteEventHandler, false);
         }
 
-        if (settings["openImages"]) {
+        if (settings["lightBoxedImages"]) {
             document.body.addEventListener("keyup", function (e) {
                 if (e.keyCode == 27 && lightBox.innerHTML != "") lightBox.innerHTML = "";
             });
