@@ -20,6 +20,7 @@
     display:         flex;
     justify-content: center;
     align-items:     center;
+    z-index:         100;
     cursor:          -webkit-zoom-out;
     cursor:          zoom-out;
 }
@@ -31,12 +32,12 @@
 }
 
 .light-box-img {
-    border:           1px solid rgba(0, 0, 0, 0.5);
+    border:           1px solid #000;
     box-shadow:       1px 1px 10px rgba(0, 0, 0, 0.5);
     max-width:        100%;
     max-height:       100%;
     margin:           auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
 }
 
 .light-box-thumbnail {

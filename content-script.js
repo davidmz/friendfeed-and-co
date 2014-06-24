@@ -133,10 +133,13 @@
         }
         if (settings["lightBoxedImages"]) {
             toArray(element.querySelectorAll(".images.media a:not(.light-box-thumbnail)")).forEach(function (node) {
+                var img = node.querySelector("img");
                 if (node.dataset["src"]) {
                     node.classList.add("light-box-thumbnail");
+                } else if (/\.(jpe?g|png|gif)/i.test(node.href)) {
+                    node.dataset["src"] = node.href;
+                    node.classList.add("light-box-thumbnail");
                 } else if (/^http:\/\/www\.flickr\.com\/photos\//.test(node.href)) {
-                    var img = node.querySelector("img");
                     if (img && /^https?:\/\/farm\d+\.static\.?flickr\.com\//.test(img.src)) {
                         node.dataset["src"] = img.src.replace(/_.\.jpg$/, "_b.jpg");
                         node.classList.add("light-box-thumbnail");
@@ -150,8 +153,14 @@
                         node.classList.add("light-box-thumbnail");
                     };
                     xhr.send();
-                } else if (/\.(jpe?g|png|gif)/i.test(node.href)) {
-                    node.dataset["src"] = node.href;
+                } else if (/^http:\/\/imgur\.com\//.test(node.href)) {
+                    node.dataset["src"] = "http://i.imgur.com/" + node.href.match(/^http:\/\/imgur\.com\/(gallery\/)?([^#]+)/)[2] + ".jpg";
+                    node.classList.add("light-box-thumbnail");
+                } else if (/^http:\/\/gyazo\.com\//.test(node.href)) {
+                    node.dataset["src"] = "http://i.gyazo.com/" + node.href.match(/^http:\/\/gyazo\.com\/([^#]+)/)[1] + ".png";
+                    node.classList.add("light-box-thumbnail");
+                } else if (/soup\.io\/asset/.test(img.src)) {
+                    node.dataset["src"] = img.src.replace(/_\d+(\.\w+)$/, "$1");
                     node.classList.add("light-box-thumbnail");
                 }
             });
