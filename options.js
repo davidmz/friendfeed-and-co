@@ -10,6 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
         sPage.style.display = "block";
         sPage.previousElementSibling.style.display = "none";
 
+        Cell
+            .fromInput(sPage.querySelector("[value='replyLinks']"), "change", "checked")
+            .onValue(function (ok) {
+                sPage.querySelector("[value='withAvatars']").disabled = !ok;
+                sPage.querySelector("[value='highlightRefComments']").disabled = !ok;
+            });
+
+
         saveBtn.addEventListener("click", function () {
             saveBtn.disabled = true;
             checkBoxes.forEach(function (box) {

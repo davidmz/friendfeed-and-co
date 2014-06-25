@@ -90,6 +90,30 @@
         xhr.send();
     };
 
+    var linkMouseOver = function (e) {
+        var selector;
+        if ((selector = e.target.dataset["selector"])) {
+            toArray(closestParent(e.target, ".comments").querySelectorAll(".comment")).forEach(function (node) {
+                if (node.matches(selector)) {
+                    node.classList.add("highlighted");
+                } else {
+                    node.classList.remove("highlighted");
+                }
+            });
+        }
+    };
+    var linkMouseOut = function (e) {
+        toArray(closestParent(e.target, ".comments").querySelectorAll(".comment")).forEach(function (node) {
+            node.classList.remove("highlighted");
+        });
+    };
+
+    var hlOver = function (el, selector) {
+        el.dataset["selector"] = selector;
+        el.addEventListener("mouseover", linkMouseOver);
+        el.addEventListener("mouseout", linkMouseOut);
+    };
+
     var quoteLinks = function (element) {
         if (!settings["replyLinks"]) return;
         if (settings["withAvatars"]) toArray(element.querySelectorAll(".entry:not(.with-avatars)")).forEach(function (node) { node.classList.add("with-avatars"); });
@@ -97,6 +121,71 @@
         while (el = element.querySelector(".comments div.quote")) {
             var parentComments = closestParent(el, ".comments");
             var href = parentComments.parentNode.querySelector(".body > .info > .date").href;
+            toArray(parentComments.querySelectorAll(".comment .content")).forEach(function (node) {
+                var c = node.firstChild;
+                while (c) {
+                    if (c.nodeType == Node.TEXT_NODE && /\B@([a-z0-9_]+)/.test(c.nodeValue)) {
+                        var re = /\B@([a-z0-9_]+)/g,
+                            str = c.nodeValue,
+                            fr = document.createDocumentFragment(),
+                            m, ptr = 0;
+                        while ((m = re.exec(str)) !== null) {
+                            var match = m[0], login = m[1], off = m.index;
+                            fr.appendChild(document.createTextNode(str.substr(ptr, off - ptr)));
+                            ptr = off + match.length;
+
+                            var a = fr.appendChild(document.createElement("a"));
+                            a.appendChild(document.createTextNode(match));
+                            a.href = "/" + login;
+                            a.className = "l_profile user-link";
+                            if (settings["highlightRefComments"]) {
+                                hlOver(a, ".comment-from-" + login);
+                            }
+                        }
+                        var lastCh = fr.appendChild(document.createTextNode(str.substr(ptr)));
+                        node.insertBefore(fr, c);
+                        node.removeChild(c);
+                        c = lastCh;
+                    }
+                    c = c.nextSibling;
+                }
+                c = node.firstChild;
+                if (settings["highlightRefComments"] && c.nodeType == Node.TEXT_NODE && /^\s+[↑^]+/.test(c.nodeValue)) {
+                    m = /^(\s+)([↑^]+)/.exec(c.nodeValue);
+
+                    var n = m[2].length;
+                    var comm = node.parentNode, refComm = null;
+                    while (true) {
+                        comm = comm.previousElementSibling;
+                        if (comm && comm.classList.contains("comment")) {
+                            n--;
+                            if (n == 0) {
+                                refComm = comm;
+                                break;
+                            }
+                        } else if (comm && comm.classList.contains("hiddencomments")) {
+                            // pass
+                        } else if (comm && comm.classList.contains("expandcomment")) {
+                            n -= parseInt(comm.querySelector("a").textContent);
+                            if (n <= 0) break;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (refComm) {
+                        node.insertBefore(document.createTextNode(m[1]), c);
+                        a = document.createElement("span");
+                        a.className = "ups";
+                        a.appendChild(document.createTextNode(m[2]));
+                        hlOver(a, "#" + refComm.id);
+                        node.insertBefore(a, c);
+                        node.insertBefore(document.createTextNode(c.nodeValue.substr(m[0].length)), c);
+                        node.removeChild(c);
+                    }
+                }
+                node.normalize();
+            });
             toArray(parentComments.querySelectorAll("div.quote")).forEach(function (node) {
                 var parent = node.parentNode,
                     id = parent.getAttribute("id"),
@@ -104,14 +193,16 @@
                 a.className = node.className;
                 a.title = node.title;
                 a.href = href + "#" + id;
-                if (settings["withAvatars"]) {
-                    var profile = parent.querySelector(".l_profile");
+                var profile = parent.querySelector(".l_profile:not(.user-link)"),
+                    login = null;
+                if (profile) {
                     // элемента может не быть, пример: https://friendfeed.com/aepiots-blogs/a8c56d00/amber-alert-8-month-old-abducted-in-moms-car
-                    if (profile) {
-                        var login = profile.getAttribute("href").substr(1);
-                        getAvatar(login, function (url) { a.style.backgroundImage = "url(" + url + ")"; });
-                    }
+                    login = profile.getAttribute("href").substr(1);
+                    parent.classList.add("comment-from-" + login);
+                    // hlOver(a, ".comment-from-" + login);
+                    // hlOver(profile, ".comment-from-" + login);
                 }
+                if (settings["withAvatars"] && login) getAvatar(login, function (url) { a.style.backgroundImage = "url(" + url + ")"; });
                 parent.insertBefore(a, node);
                 parent.removeChild(node);
             });

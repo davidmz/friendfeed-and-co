@@ -44,3 +44,19 @@
     cursor: -webkit-zoom-in;
     cursor: zoom-in;
 }
+
+.ups:hover {
+    background: #def;
+}
+
+.ups {
+    display:    inline-block;
+    border:     1px solid white;
+    background: #eee;
+    padding:    0 0.25em;
+    cursor:     default;
+}
+
+.comment.highlighted > .content {
+    background-color: #def;
+}

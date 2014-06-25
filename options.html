@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <title>FriendFeed &amp; Co, настройки</title>
     <link rel="stylesheet" type="text/css" href="chrome-bootstrap.css">
+    <style>
+        p.shift {
+            padding-left: 1.5em;
+        }
+    </style>
     <script src="common.js"></script>
+    <script src="xcell.js"></script>
     <script src="options.js"></script>
 </head>
 <body class="chrome-bootstrap">
@@ -37,18 +43,27 @@
                 <p>
                     <label>
                         <input type="checkbox" value="replyLinks">
-                        По клику на «облачко» (или юзерпик) около комментария открывается поле ввода и в него
-                        вставляется
-                        @login автора комментария. Если при клике зажата клавиша Ctrl (Cmd на маках), то вставляется строка вида
+                        Улучшения в комментариях. По клику на «облачко» (или юзерпик) около комментария открывается поле
+                        ввода и в него
+                        вставляется @login автора комментария. Если при клике зажата клавиша Ctrl (Cmd на маках), то
+                        вставляется строка вида
                         ^^^ — «ссылка» на кликнутый комментарий. Вместе с Ctrl/Cmd можно также зажать и Shift.
+                        В комментариях распознаются @login-ы и заменяются на ссылки на профили.
                     </label>
                 </p>
 
-                <p>
+                <p class="shift">
                     <label>
                         <input type="checkbox" value="withAvatars">
-                        «Облачко» около комментария заменяется на юзерпик его автора (работает только если включена
-                        предыдущая галочка).
+                        «Облачко» около комментария заменяется на юзерпик его автора.
+                    </label>
+                </p>
+
+                <p class="shift">
+                    <label>
+                        <input type="checkbox" value="highlightRefComments">
+                        При наведении мыши на @login внутри комментария, подсвечиваются комментарии этого автора.
+                        Также работает с ^^^/↑↑↑.
                     </label>
                 </p>
 
