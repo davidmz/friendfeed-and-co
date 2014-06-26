@@ -64,3 +64,9 @@
 .comment.highlighted .ups {
     background: none;
 }
+
+.comment-from-post-author::before {
+    content:  '·';
+    position: absolute;
+    margin:   -2px 0 0 -28px;
+};
