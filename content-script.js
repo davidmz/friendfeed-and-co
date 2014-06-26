@@ -117,7 +117,6 @@
     var quoteLinks = function (element) {
         if (!settings["replyLinks"]) return;
         if (settings["withAvatars"]) toArray(element.querySelectorAll(".entry:not(.with-avatars)")).forEach(function (node) { node.classList.add("with-avatars"); });
-        var entries = toArray(element.querySelectorAll('.entry'));
         var postAuthor,
             h1link = document.querySelector('.profile h1 a.name');
         if (h1link) { // страница отдельного фида
