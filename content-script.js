@@ -230,6 +230,9 @@
                 } else if (/\.(jpe?g|png|gif)/i.test(node.href)) {
                     node.dataset["src"] = node.href;
                     node.classList.add("light-box-thumbnail");
+                } else if (/^http:\/\/m\.friendfeed-media\.com\//.test(node.href)) {
+                    node.dataset["src"] = node.href;
+                    node.classList.add("light-box-thumbnail");
                 } else if (/^http:\/\/www\.flickr\.com\/photos\//.test(node.href)) {
                     if (img && /^https?:\/\/farm\d+\.static\.?flickr\.com\//.test(img.src)) {
                         node.dataset["src"] = img.src.replace(/_.\.jpg$/, "_b.jpg");
