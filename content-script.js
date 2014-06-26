@@ -117,10 +117,25 @@
     var quoteLinks = function (element) {
         if (!settings["replyLinks"]) return;
         if (settings["withAvatars"]) toArray(element.querySelectorAll(".entry:not(.with-avatars)")).forEach(function (node) { node.classList.add("with-avatars"); });
+        var entries = toArray(element.querySelectorAll('.entry'));
+        var postAuthor,
+            h1link = document.querySelector('.profile h1 a.name');
+        if (h1link) { // страница отдельного фида
+            postAuthor = h1link.href.split('/').pop();
+        }
         var el;
         while (el = element.querySelector(".comments div.quote")) {
             var parentComments = closestParent(el, ".comments");
-            var href = parentComments.parentNode.querySelector(".body > .info > .date").href;
+            var entry = parentComments.parentNode;
+            var href = entry.querySelector(".body > .info > .date").href;
+            var entryname = entry.querySelector(".ebody .name");
+            if (!h1link) {
+                if (entryname.childNodes[2].textContent.trim() == ':') { // третья нода -- двоеточие? значит, сообщество
+                    postAuthor = entryname.querySelector(".l_profile:nth-child(2)").innerHTML; // автор поста в сообществе -- второй из нескольких .l_profile
+                } else { // обычный пост
+                    postAuthor = entryname.querySelector(".l_profile").innerHTML;  // автор поста -- первый из нескольких .l_profile
+                }
+            }
             toArray(parentComments.querySelectorAll(".comment .content")).forEach(function (node) {
                 var c = node.firstChild;
                 while (c) {
@@ -184,6 +199,12 @@
                         node.removeChild(c);
                     }
                 }
+                if (settings["highlightAuthorComments"]) {
+                    var commentAuthor = node.querySelector(".l_profile").href.split('/').pop(); // достаю ник автора из ссылки, потому что не могу доверять содержимому ссылки (может быть изменено ранее)
+                    if (commentAuthor == postAuthor) {
+                        node.classList.add("comment-from-post-author");
+                    }
+                }
                 node.normalize();
             });
             toArray(parentComments.querySelectorAll("div.quote")).forEach(function (node) {
@@ -206,7 +227,7 @@
                 parent.insertBefore(a, node);
                 parent.removeChild(node);
             });
-        }
+        };
     };
 
     var lightBox = document.createElement("DIV");
