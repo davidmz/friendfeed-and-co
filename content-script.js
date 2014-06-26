@@ -30,7 +30,7 @@
             }
             caps = new Array(n + 1).join("^");
         }
-        var login = e.target.parentNode.querySelector("a.l_profile").getAttribute("href").substr(1);
+        var login = e.target.parentNode.querySelector(".l_profile:not(.user-link)").getAttribute("href").substr(1);
         var body = closestParent(e.target, ".body");
         var ta = body.querySelector("textarea");
         if (!ta) {
