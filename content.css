@@ -50,13 +50,17 @@
 }
 
 .ups {
-    display:    inline-block;
-    border:     1px solid white;
-    background: #eee;
-    padding:    0 0.25em;
-    cursor:     default;
+    display:       inline-block;
+    background:    #eee;
+    padding:       0 0.25em;
+    border-radius: 0.25em;
+    cursor:        default;
 }
 
 .comment.highlighted > .content {
     background-color: #def;
+}
+
+.comment.highlighted .ups {
+    background: none;
 }

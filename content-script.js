@@ -103,7 +103,7 @@
         }
     };
     var linkMouseOut = function (e) {
-        toArray(closestParent(e.target, ".comments").querySelectorAll(".comment")).forEach(function (node) {
+        toArray(closestParent(e.target, ".comments").querySelectorAll(".comment.highlighted")).forEach(function (node) {
             node.classList.remove("highlighted");
         });
     };
