@@ -63,7 +63,7 @@ registerAction(function (node) {
                 node.classList.add("light-box-thumbnail");
 
             } else if (/soup\.io\/asset/.test(img.src)) {
-                node.dataset["imageSrc"] = img.src.replace(/_\d+(\.\w+)$/, "$1");
+                node.dataset["imageSrc"] = img.src.replace(/_400(\.\w+)$/, "$1");
                 node.classList.add("light-box-thumbnail");
 
             }
