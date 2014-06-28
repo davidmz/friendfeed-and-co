@@ -1,6 +1,6 @@
 {
     "name": "FriendFeed & Co",
-    "version": "1.14",
+    "version": "1.15",
     "description": "Разные дополнительные удобства во FriendFeed-е",
 
     "manifest_version": 2,
@@ -12,7 +12,21 @@
         {
             "all_frames": true,
             "matches": [ "http://friendfeed.com/*", "https://friendfeed.com/*" ],
-            "js": ["common.js", "content-script.js"],
+            "js": [
+                "common.js",
+                "content-script.js",
+
+                "actions/show-settings.js",
+                "actions/norm-names.js",
+                "actions/attached-images.js",
+                "actions/lightboxed-images.js",
+                "actions/kill-duck.js",
+
+                "actions/comments-common.js",
+                "actions/comments-avatars.js",
+                "actions/comments-hl-refs.js",
+                "actions/comments-mark-author.js"
+            ],
             "css": ["content.css"]
         }
     ],
