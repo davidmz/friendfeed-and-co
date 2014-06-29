@@ -13,41 +13,47 @@
                 var txtNode = node.firstChild;
                 if (!txtNode || txtNode.nodeType != Node.TEXT_NODE || !/^\s+[↑^]+/.test(txtNode.nodeValue)) return;
 
-                var m = /^(\s+)([↑^]+)/.exec(txtNode.nodeValue);
-                var n = m[2].length;
-                var comm = node.parentNode,
-                    refComm = null;
-                while (true) {
-                    comm = comm.previousElementSibling;
-                    if (comm && comm.classList.contains("comment")) {
-                        n--;
-                        if (n == 0) {
-                            refComm = comm;
-                            break;
-                        }
-                    } else if (comm && comm.classList.contains("hiddencomments")) {
-                        // pass
-                    } else if (comm && comm.classList.contains("expandcomment")) {
-                        n -= parseInt(comm.querySelector("a").textContent);
-                        if (n <= 0) break;
-                    } else {
-                        break;
+                var text = txtNode.nodeValue, m;
+                while ((m = /^(\s+)([↑^]+)/.exec(text)) !== null) {
+                    var n = m[2].length;
+                    var refComm = getRefComment(node.parentNode, n);
+                    if (refComm) {
+                        node.insertBefore(document.createTextNode(m[1]), txtNode);
+                        var a = document.createElement("span");
+                        a.className = "ups";
+                        a.appendChild(document.createTextNode(m[2]));
+                        hlOver(a, "#" + refComm.id);
+                        node.insertBefore(a, txtNode);
                     }
+                    text = text.substr(m[0].length);
                 }
-
-                if (refComm) {
-                    node.insertBefore(document.createTextNode(m[1]), txtNode);
-                    var a = document.createElement("span");
-                    a.className = "ups";
-                    a.appendChild(document.createTextNode(m[2]));
-                    hlOver(a, "#" + refComm.id);
-                    node.insertBefore(a, txtNode);
-                    node.insertBefore(document.createTextNode(txtNode.nodeValue.substr(m[0].length)), txtNode);
-                    node.removeChild(txtNode);
-                }
+                node.insertBefore(document.createTextNode(text), txtNode);
+                node.removeChild(txtNode);
             });
 
     });
+
+    var getRefComment = function (comm, n) {
+        var refComm = null;
+        while (true) {
+            comm = comm.previousElementSibling;
+            if (comm && comm.classList.contains("comment")) {
+                n--;
+                if (n == 0) {
+                    refComm = comm;
+                    break;
+                }
+            } else if (comm && comm.classList.contains("hiddencomments")) {
+                // pass
+            } else if (comm && comm.classList.contains("expandcomment")) {
+                n -= parseInt(comm.querySelector("a").textContent);
+                if (n <= 0) break;
+            } else {
+                break;
+            }
+        }
+        return refComm;
+    };
 
     var linkMouseOver = function (e) {
         var selector;
