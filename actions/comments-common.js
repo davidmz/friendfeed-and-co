@@ -14,6 +14,14 @@
 
             node = node || document.body;
 
+            // После редактирования комментария FF помещает его в span
+            // Достаём его оттуда (это, вроде бы, ничему не вредит)
+            if (node.matches(".comments > span > .comment")) {
+                var span = node.parentNode;
+                span.parentNode.insertBefore(node, span);
+                span.parentNode.removeChild(span);
+            }
+
             var el;
             while (el = node.querySelector(".comments div.quote")) {
                 var parentComments = closestParent(el, ".comments");
