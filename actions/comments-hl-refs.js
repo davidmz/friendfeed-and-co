@@ -24,11 +24,14 @@
                         a.appendChild(document.createTextNode(m[2]));
                         hlOver(a, "#" + refComm.id);
                         node.insertBefore(a, txtNode);
+                    } else {
+                        node.insertBefore(document.createTextNode(m[0]), txtNode);
                     }
                     text = text.substr(m[0].length);
                 }
                 node.insertBefore(document.createTextNode(text), txtNode);
                 node.removeChild(txtNode);
+                node.normalize();
             });
 
     });
