@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .onValue(function (ok) {
                 sPage.querySelector("[value='withAvatars']").disabled = !ok;
                 sPage.querySelector("[value='highlightRefComments']").disabled = !ok;
+                sPage.querySelector("[value='highlightAuthorComments']").disabled = !ok;
             });
 
 
