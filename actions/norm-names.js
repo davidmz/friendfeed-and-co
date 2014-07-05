@@ -14,6 +14,7 @@ registerAction(function (node) {
     // В попапе показываем оригинальное имя
     toArray(node.querySelectorAll("#popup .name > .l_profile"))
         .forEach(function (node) {
-            node.innerHTML = node.dataset["displayName"];
+            var sn = node.dataset["displayName"];
+            if (sn !== undefined) node.innerHTML = node.dataset["displayName"];
         });
 });
