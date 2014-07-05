@@ -6,7 +6,6 @@
             styleEl.type = 'text/css';
             styleEl.title = 'avatars';
             style = styleEl.sheet;
-            console.log(styleEl, style)
         }
         node = node || document.body;
 
