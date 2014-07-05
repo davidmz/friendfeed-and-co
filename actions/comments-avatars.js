@@ -45,7 +45,6 @@
             if (this.status != 200) return;
             var url = URL.createObjectURL(this.response);
             style.insertRule(".comment-from-" + login + " > .quote { background-image: url(" + url + "); }", 0);
-            setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
         };
         xhr.send();
     };
