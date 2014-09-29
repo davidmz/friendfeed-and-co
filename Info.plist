@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Builder Version</key>
+	<string>10600.1.22</string>
+	<key>CFBundleDisplayName</key>
+	<string>FriendFeed &amp; Co</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.github.davidmz.friendfeedandco</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.22</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Database Quota</key>
+		<real>10485760</real>
+		<key>Global Page</key>
+		<string>main.html</string>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict>
+			<key>End</key>
+			<array>
+				<string>common.js</string>
+				<string>content-script.js</string>
+				<string>content-script-safari.js</string>
+				<string>actions/norm-names.js</string>
+				<string>actions/attached-images.js</string>
+				<string>actions/lightboxed-images.js</string>
+				<string>actions/kill-duck.js</string>
+				<string>actions/comments-common.js</string>
+				<string>actions/comments-avatars.js</string>
+				<string>actions/comments-hl-refs.js</string>
+				<string>actions/comments-mark-author.js</string>
+			</array>
+		</dict>
+		<key>Stylesheets</key>
+		<array>
+			<string>content.css</string>
+		</array>
+		<key>Whitelist</key>
+		<array>
+			<string>http://friendfeed.com/*</string>
+			<string>https://friendfeed.com/*</string>
+		</array>
+	</dict>
+	<key>Description</key>
+	<string>Разные дополнительные удобства во FriendFeed-е</string>
+	<key>DeveloperIdentifier</key>
+	<string>362NY372JG</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Allowed Domains</key>
+			<array>
+				<string>friendfeed.com</string>
+				<string>friendfeed-api.com</string>
+				<string>m.friendfeed-media.com</string>
+				<string>i.friendfeed.com</string>
+				<string>api.instagram.com</string>
+			</array>
+			<key>Include Secure Pages</key>
+			<true/>
+			<key>Level</key>
+			<string>Some</string>
+		</dict>
+	</dict>
+	<key>Website</key>
+	<string>https://github.com/davidmz/friendfeed-and-co</string>
+</dict>
+</plist>

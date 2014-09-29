@@ -6,7 +6,7 @@
     "manifest_version": 2,
 
     "icons": {
-        "128": "icon128.png"
+        "128": "Icon.png"
     },
     "content_scripts": [
         {
@@ -14,7 +14,9 @@
             "matches": [ "http://friendfeed.com/*", "https://friendfeed.com/*" ],
             "js": [
                 "common.js",
+                "settings-chrome.js",
                 "content-script.js",
+                "content-script-chrome.js",
 
                 "actions/show-settings.js",
                 "actions/norm-names.js",
