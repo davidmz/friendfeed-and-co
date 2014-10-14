@@ -37,14 +37,6 @@
                 return;
             }
         }
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', "http://friendfeed-api.com/v2/picture/" + login + "?size=small");
-        xhr.responseType = "blob";
-        xhr.onload = function () {
-            if (this.status != 200) return;
-            var url = URL.createObjectURL(this.response);
-            style.insertRule(".comment-from-" + login + " > .quote { background-image: url(" + url + "); }", 0);
-        };
-        xhr.send();
+        style.insertRule(".comment-from-" + login + " > .quote { background-image: url('//friendfeed-api.com/v2/picture/" + login + "?size=small'); }", 0);
     };
 })();
