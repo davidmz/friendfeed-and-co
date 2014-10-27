@@ -5,7 +5,7 @@ registerAction(function (node) {
         // инициализация
         var lightBox = document.createElement("DIV");
         document.body.appendChild(lightBox);
-        var lightBoxHTML = '<!--suppress HtmlUnknownTarget --><div class="light-box-shadow"><div class="light-box-container"><a href="{{LINK}}" target="_blank"><img src="{{URL}}" class="light-box-img"></a></div></div>';
+        var lightBoxHTML = '<!--suppress HtmlUnknownTarget --><div class="light-box-shadow"><div class="light-box-container"><img src="{{URL}}" class="light-box-img"></div></div>';
 
         document.body.addEventListener("keyup", function (e) {
             if (e.keyCode == 27 && lightBox.innerHTML != "") lightBox.innerHTML = "";
@@ -20,6 +20,7 @@ registerAction(function (node) {
             if (!th || e.button != 0) return;
             e.preventDefault();
             lightBox.innerHTML = lightBoxHTML.replace("{{URL}}", th.dataset["imageSrc"]).replace("{{LINK}}", th.href);
+            lightBox.querySelector(".light-box-img").addEventListener("click", function () { window.open(th.href, "_blank"); });
         }, false);
     }
 

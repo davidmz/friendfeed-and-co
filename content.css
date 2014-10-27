@@ -11,24 +11,25 @@
 }
 
 .light-box-shadow {
-    width:           100%;
-    height:          100%;
-    background:      rgba(0, 0, 0, 0.4);
     position:        fixed;
     top:             0;
     left:            0;
+    width:           100%;
+    height:          100%;
     display:         flex;
     justify-content: center;
     align-items:     center;
     z-index:         100;
-    cursor:          -webkit-zoom-out;
     cursor:          zoom-out;
+    background:      rgba(0, 0, 0, 0.4);
 }
 
 .light-box-container {
-    width:      90%;
-    max-height: 90%;
-    text-align: center;
+    width:           90%;
+    height:          90%;
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
 }
 
 .light-box-img {
@@ -38,10 +39,10 @@
     max-height:       100%;
     margin:           auto;
     background-color: #ffffff;
+    cursor:           pointer;
 }
 
 .light-box-thumbnail {
-    cursor: -webkit-zoom-in;
     cursor: zoom-in;
 }
 
