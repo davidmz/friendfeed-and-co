@@ -109,7 +109,11 @@
                     break;
                 }
             }
-            caps = new Array(n + 1).join("^");
+            if (n > 4) {
+                caps = "^\u00D7" + n;
+            } else {
+                caps = new Array(n + 1).join("^");
+            }
         }
         var login = e.target.parentNode.dataset["author"];
         var body = closestParent(e.target, ".body");
@@ -122,8 +126,8 @@
             }
         }
         if (ta) {
-            if (caps && ta.value == "") {
-                ta.value = caps + " ";
+            if (caps) {
+                ta.value += caps + " ";
                 if (e.shiftKey) ta.value += "this";
             } else if (login) {
                 ta.value += "@" + login + " ";

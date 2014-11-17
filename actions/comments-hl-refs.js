@@ -14,8 +14,8 @@
                 if (!txtNode || txtNode.nodeType != Node.TEXT_NODE || !/^\s+[↑^]+/.test(txtNode.nodeValue)) return;
 
                 var text = txtNode.nodeValue, m;
-                while ((m = /^(\s+)([↑^]+)/.exec(text)) !== null) {
-                    var n = m[2].length;
+                while ((m = /^(\s+)([↑^]\u00d7(\d+)|[↑^]+)/.exec(text)) !== null) {
+                    var n = (m[3] === undefined) ? m[2].length : parseInt(m[3]);
                     var refComm = getRefComment(node.parentNode, n);
                     if (refComm) {
                         node.insertBefore(document.createTextNode(m[1]), txtNode);
@@ -76,11 +76,18 @@
         });
     };
 
+    var linkClick = function (e) {
+        location.hash = e.target.dataset.hlSelector;
+    };
+
     var hlOver = function (el, selector) {
         if (el.dataset["hlSelector"]) return;
         el.dataset["hlSelector"] = selector;
         el.addEventListener("mouseover", linkMouseOver);
         el.addEventListener("mouseout", linkMouseOut);
+        if (selector.charAt(0) == "#") {
+            el.addEventListener("click", linkClick);
+        }
     };
 })();
 

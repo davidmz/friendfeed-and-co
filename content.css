@@ -58,7 +58,12 @@
     cursor:        default;
 }
 
-.comment.highlighted > .content {
+.ups[data-hl-selector^='#'] {
+    cursor: pointer;
+}
+
+.comment.highlighted > .content,
+.comment:target > .content {
     background-color: #def;
 }
 
