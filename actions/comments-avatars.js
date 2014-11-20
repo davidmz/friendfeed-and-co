@@ -21,6 +21,8 @@
                     avatars[login] = true;
                     fetchAvatar(login);
                 }
+                var entry = closestParent(comment, ".entry:not(.with-avatars)");
+                if (entry) entry.classList.add("with-avatars");
             });
     });
 
