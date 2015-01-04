@@ -9,5 +9,6 @@ registerAction(function (node) {
         e.preventDefault();
         window.open(chrome.extension.getURL("options.html"));
     };
-    document.getElementById("sidebar").appendChild(box);
+    var sidebar = document.getElementById("sidebar");
+    if (sidebar) sidebar.appendChild(box);
 });

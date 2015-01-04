@@ -22,6 +22,10 @@
                 span.parentNode.removeChild(span);
             }
 
+            toArray(node.querySelectorAll(".expandcomment")).forEach(function (node) {
+                node.style.counterIncrement = "comment " + parseInt(node.querySelector("a").textContent)
+            });
+
             var el;
             while (el = node.querySelector(".comments div.quote")) {
                 var parentComments = closestParent(el, ".comments");
