@@ -4,7 +4,7 @@
 
         if (node === undefined) {
             document.addEventListener('keypress', function (e) {
-                if (e.keyCode == 13 && e.target.nodeName === "TEXTAREA" && e.target.matches(".editentryform textarea, .commentform textarea")) {
+                if (e.keyCode == 13 && e.target.nodeName === "TEXTAREA" && e.target.matches(".editentryform textarea, .commentform textarea, .sharebox textarea")) {
                     if (e.shiftKey) {
                         e.stopPropagation();
                     } else {
@@ -15,7 +15,7 @@
 
             document.addEventListener('submit', function (e) {
                 var txtA = e.target.querySelector("textarea[name='body']");
-                if (txtA && txtA.matches(".editentryform textarea, .commentform textarea")) {
+                if (txtA && txtA.matches(".editentryform textarea, .commentform textarea, .sharebox textarea")) {
                     txtA.value = txtA.value.replace(/^\n+/, "").replace(/\n+$/, "").replace(/\n/g, "\u2000");
                 }
             }, true);
@@ -50,7 +50,7 @@
             if (changed) node.normalize();
         });
 
-        toArray(node.querySelectorAll(".editentryform textarea, .commentform textarea")).forEach(function (node) {
+        toArray(node.querySelectorAll(".editentryform textarea, .commentform textarea, .sharebox textarea")).forEach(function (node) {
             node.value = node.value.replace(/\u2000/g, "\n");
         });
 
