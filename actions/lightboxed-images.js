@@ -28,6 +28,7 @@ registerAction(function (node) {
     toArray(node.querySelectorAll(".images.media a:not(.light-box-thumbnail)"))
         .forEach(function (node) {
             var img = node.querySelector("img");
+            var xhr;
             if (node.dataset["imageSrc"]) {
                 node.classList.add("light-box-thumbnail");
 
@@ -39,18 +40,27 @@ registerAction(function (node) {
                 node.dataset["imageSrc"] = node.href;
                 node.classList.add("light-box-thumbnail");
 
-            } else if (/^http:\/\/www\.flickr\.com\/photos\//.test(node.href)) {
+            } else if (/^https?:\/\/www\.flickr\.com\/photos\//.test(node.href)) {
                 if (img && /^https?:\/\/farm\d+\.static\.?flickr\.com\//.test(img.src)) {
                     node.dataset["imageSrc"] = img.src.replace(/_.\.jpg$/, "_b.jpg");
                     node.classList.add("light-box-thumbnail");
+                } else {
+                    xhr = new XMLHttpRequest();
+                    xhr.open('GET', "https://www.flickr.com/services/oembed/?format=json&url=" + encodeURIComponent(node.href));
+                    xhr.responseType = "json";
+                    xhr.onload = function () {
+                        node.dataset["imageSrc"] = this.response.url;
+                        node.classList.add("light-box-thumbnail");
+                    };
+                    xhr.send();
                 }
 
-            } else if (/^http:\/\/instagram\.com\/p\//.test(node.href)) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', "http://api.instagram.com/oembed?url=" + encodeURIComponent(node.href));
+            } else if (/^https?:\/\/instagram\.com\/p\//.test(node.href)) {
+                xhr = new XMLHttpRequest();
+                xhr.open('GET', "https://api.instagram.com/oembed?url=" + encodeURIComponent(node.href));
                 xhr.responseType = "json";
                 xhr.onload = function () {
-                    node.dataset["imageSrc"] = this.response.url;
+                    node.dataset["imageSrc"] = this.response.url || this.response.thumbnail_url;
                     node.classList.add("light-box-thumbnail");
                 };
                 xhr.send();

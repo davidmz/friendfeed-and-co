@@ -1,6 +1,6 @@
 {
     "name": "FriendFeed & Co",
-    "version": "1.27",
+    "version": "1.28",
     "description": "Разные дополнительные удобства во FriendFeed-е",
 
     "manifest_version": 2,
@@ -25,7 +25,9 @@
                 "actions/comments-common.js",
                 "actions/comments-avatars.js",
                 "actions/comments-hl-refs.js",
-                "actions/comments-mark-author.js"
+                "actions/comments-mark-author.js",
+
+                "actions/newlines.js"
             ],
             "css": ["content.css"]
         }
@@ -34,6 +36,7 @@
     "web_accessible_resources": ["options.html"],
     "permissions": ["storage",
         "http://m.friendfeed-media.com/*",
-        "http://api.instagram.com/*"
+        "https://api.instagram.com/oembed",
+        "https://www.flickr.com/services/oembed/"
     ]
 }

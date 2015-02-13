@@ -10,7 +10,7 @@ function closestParent(element, selector, withSelf) {
 }
 
 function loadSettings(callback) {
-    var boolNames = ["fixNames", "replyLinks", "openImages", "lightBoxedImages", "killDuck", "withAvatars", "highlightRefComments", "highlightAuthorComments"];
+    var boolNames = ["fixNames", "replyLinks", "openImages", "lightBoxedImages", "killDuck", "withAvatars", "highlightRefComments", "highlightAuthorComments", "newLines"];
     var settings = {};
     boolNames.forEach(function (name) {settings[name] = true;});
     settings["withAvatars"] = false;
