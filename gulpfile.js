@@ -28,7 +28,7 @@ gulp.task('sac', function () {
         .pipe(uglify())
         .pipe(insert.prepend(
             "/**\n" +
-            " * FriendFeed & Co\n" +
+            " * FriendFeed & Co (Stand Alone Complex)\n" +
             " * @version " + manifest.version + "\n" +
             " * @copyright 2014, 2015 David Mzareulyan\n" +
             " * @link https://github.com/davidmz/friendfeed-and-co\n" +
