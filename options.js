@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadSettings(function (settings) {
+    loadSettings.then(function (settings) {
         var sPage = document.querySelector(".content.settings");
         var checkBoxes = toArray(sPage.querySelectorAll("input[type='checkbox']"));
         var saveBtn = document.getElementById("save-settings");

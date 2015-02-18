@@ -4,6 +4,7 @@ registerAction(function (node) {
     if (node === undefined) {
         // инициализация
         var lightBox = document.createElement("DIV");
+        lightBox.className = "frf-co-light-box";
         document.body.appendChild(lightBox);
         var lightBoxHTML = '<!--suppress HtmlUnknownTarget --><div class="light-box-shadow"><div class="light-box-container"><img src="{{URL}}" class="light-box-img"></div></div>';
 
@@ -29,6 +30,8 @@ registerAction(function (node) {
         .forEach(function (node) {
             var img = node.querySelector("img");
             var xhr;
+            var urlBase;
+            var paramName;
             if (node.dataset["imageSrc"]) {
                 node.classList.add("light-box-thumbnail");
 
@@ -45,22 +48,26 @@ registerAction(function (node) {
                     node.dataset["imageSrc"] = img.src.replace(/_.\.jpg$/, "_b.jpg");
                     node.classList.add("light-box-thumbnail");
                 } else {
+                    urlBase = isStandAlone ? "//noembed.com/embed?url=" : "https://www.flickr.com/services/oembed/?format=json&url=";
+                    paramName = isStandAlone ? "media_url" : "url";
                     xhr = new XMLHttpRequest();
-                    xhr.open('GET', "https://www.flickr.com/services/oembed/?format=json&url=" + encodeURIComponent(node.href));
+                    xhr.open('GET', urlBase + encodeURIComponent(node.href));
                     xhr.responseType = "json";
                     xhr.onload = function () {
-                        node.dataset["imageSrc"] = this.response.url;
+                        node.dataset["imageSrc"] = this.response[paramName];
                         node.classList.add("light-box-thumbnail");
                     };
                     xhr.send();
                 }
 
             } else if (/^https?:\/\/instagram\.com\/p\//.test(node.href)) {
+                urlBase = isStandAlone ? "//noembed.com/embed?url=" : "https://api.instagram.com/oembed?url=";
+                paramName = isStandAlone ? "media_url" : "thumbnail_url";
                 xhr = new XMLHttpRequest();
-                xhr.open('GET', "https://api.instagram.com/oembed?url=" + encodeURIComponent(node.href));
+                xhr.open('GET', urlBase + encodeURIComponent(node.href));
                 xhr.responseType = "json";
                 xhr.onload = function () {
-                    node.dataset["imageSrc"] = this.response.url || this.response.thumbnail_url;
+                    node.dataset["imageSrc"] = this.response[paramName];
                     node.classList.add("light-box-thumbnail");
                 };
                 xhr.send();

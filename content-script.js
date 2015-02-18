@@ -14,9 +14,9 @@ var observer = new MutationObserver(function (mutations) {
     });
 });
 
-loadSettings(function (s) {
+loadSettings.then(function (s) {
     settings = s;
     actions.forEach(function (act) { act(); });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, {childList: true, subtree: true});
 });
 
