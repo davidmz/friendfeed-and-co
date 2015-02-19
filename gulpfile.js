@@ -4,7 +4,9 @@ var
     concat = require('gulp-concat'),
     insert = require('gulp-insert'),
     uglify = require('gulp-uglify'),
-    watch = require('gulp-watch');
+    watch = require('gulp-watch'),
+    template = require('gulp-template'),
+    rename = require("gulp-rename");
 
 gulp.task('sac', function () {
     var scripts = [];
@@ -22,7 +24,7 @@ gulp.task('sac', function () {
         .pipe(insert.append(
             "\n" +
             "};\n" +
-            "if (document.readyState === 'complete') { doIt(); } else { document.addEventListener(\"DOMContentLoaded\", doIt); }\n" +
+            "if (document.readyState === 'complete' || document.readyState === 'interactive') { doIt(); } else { document.addEventListener(\"DOMContentLoaded\", doIt); }\n" +
             "})();"
         ))
         .pipe(uglify())
@@ -33,8 +35,14 @@ gulp.task('sac', function () {
             " * @copyright 2014, 2015 David Mzareulyan\n" +
             " * @link https://github.com/davidmz/friendfeed-and-co\n" +
             " * @license MIT\n" +
-            "*/\n"
+            " */\n"
         ))
+        .pipe(gulp.dest('.'));
+
+    // User.js
+    gulp.src(['ffco-sac.user-tpl.js'])
+        .pipe(template({version: manifest.version}))
+        .pipe(rename('ffco-sac.user.js'))
         .pipe(gulp.dest('.'));
 });
 

@@ -10,6 +10,8 @@
     "gulp-watch": "latest",
     "gulp-concat": "latest",
     "gulp-insert": "latest",
+    "gulp-template": "latest",
+    "gulp-rename": "latest",
     "gulp-uglify": "latest"
   }
 }
