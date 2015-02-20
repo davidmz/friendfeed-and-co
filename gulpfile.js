@@ -5,19 +5,22 @@ var
     insert = require('gulp-insert'),
     uglify = require('gulp-uglify'),
     watch = require('gulp-watch'),
+    batch = require('gulp-batch'),
     template = require('gulp-template');
 
-gulp.task('default', function () {
+gulp.task('templates-replace', function () {
+    return gulp.src(['templates/*'])
+        .pipe(template({version: manifest.version}))
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('default', ['templates-replace'], function () {
     var scripts = [];
     manifest.content_scripts.forEach(function (cs) {
         scripts = scripts.concat(cs.js);
     });
 
-    gulp.src(['templates/*'])
-        .pipe(template({version: manifest.version}))
-        .pipe(gulp.dest('.'));
-
-    gulp.src(scripts)
+    return gulp.src(scripts)
         .pipe(concat('ffco-sac.min.js'))
         .pipe(insert.prepend(
             "(function(){\n" +
@@ -44,6 +47,6 @@ gulp.task('default', function () {
 });
 
 gulp.task('watch', function () {
-    watch(["./actions/*", "./templates/*", "./lib.js", "./init.js", "./manifest.json"], function () { gulp.start('default'); });
+    watch(["./actions/*", "./templates/*", "./lib.js", "./init.js", "./manifest.json"], batch(function () { gulp.start('default'); }));
 });
 

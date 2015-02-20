@@ -1,16 +1,17 @@
 {
-  "name": "frf-co",
-  "version": "1.0.0",
-  "description": "FriendFeed & Co: friendfeed new functions",
-  "author": "David Mzareulyan",
-  "license": "MIT",
-  "homepage": "https://github.com/davidmz/friendfeed-and-co",
-  "devDependencies": {
-    "gulp": "latest",
-    "gulp-watch": "latest",
-    "gulp-concat": "latest",
-    "gulp-insert": "latest",
-    "gulp-template": "latest",
-    "gulp-uglify": "latest"
-  }
+    "name": "frf-co",
+    "version": "1.0.0",
+    "description": "FriendFeed & Co: friendfeed new functions",
+    "author": "David Mzareulyan",
+    "license": "MIT",
+    "homepage": "https://github.com/davidmz/friendfeed-and-co",
+    "devDependencies": {
+        "gulp": "latest",
+        "gulp-watch": "latest",
+        "gulp-concat": "latest",
+        "gulp-insert": "latest",
+        "gulp-template": "latest",
+        "gulp-batch": "latest",
+        "gulp-uglify": "latest"
+    }
 }

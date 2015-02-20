@@ -9,8 +9,9 @@
 // ==/UserScript==
 (function () {
     var e = document.createElement("script");
-    e.src = 'https://cdn.rawgit.com/davidmz/friendfeed-and-co/v<%= version %>/ffco-sac.min.js';
+    e.src = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v<%= version %>/ffco-sac.min.js';
     e.type = "text/javascript";
+    e.charset = "utf-8";
     e.async = true;
     document.head.appendChild(e);
 })();

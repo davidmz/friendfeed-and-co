@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name FriendFeed & Co
 // @namespace https://github.com/davidmz/friendfeed-and-co
-// @version 1.33
+// @version 1.34
 // @description Some cool features for FriendFeed
 // @include https://friendfeed.com/*
 // @include http://friendfeed.com/*
@@ -9,8 +9,9 @@
 // ==/UserScript==
 (function () {
     var e = document.createElement("script");
-    e.src = 'https://cdn.rawgit.com/davidmz/friendfeed-and-co/v1.33/ffco-sac.min.js';
+    e.src = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v1.34/ffco-sac.min.js';
     e.type = "text/javascript";
+    e.charset = "utf-8";
     e.async = true;
     document.head.appendChild(e);
 })();
