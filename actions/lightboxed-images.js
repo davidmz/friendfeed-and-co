@@ -25,13 +25,21 @@ registerAction(function (node) {
         }, false);
     }
 
+    var OEmbedIt = function (link) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "https://noembed.com/embed?url=" + encodeURIComponent(link.href));
+        xhr.responseType = "json";
+        xhr.onload = function () {
+            link.dataset["imageSrc"] = this.response["media_url"];
+            link.classList.add("light-box-thumbnail");
+        };
+        xhr.send();
+    };
+
     node = node || document.body;
     toArray(node.querySelectorAll(".images.media a:not(.light-box-thumbnail)"))
         .forEach(function (node) {
             var img = node.querySelector("img");
-            var xhr;
-            var urlBase;
-            var paramName;
             if (node.dataset["imageSrc"]) {
                 node.classList.add("light-box-thumbnail");
 
@@ -48,29 +56,11 @@ registerAction(function (node) {
                     node.dataset["imageSrc"] = img.src.replace(/_.\.jpg$/, "_b.jpg");
                     node.classList.add("light-box-thumbnail");
                 } else {
-                    urlBase = isStandAlone ? "//noembed.com/embed?url=" : "https://www.flickr.com/services/oembed/?format=json&url=";
-                    paramName = isStandAlone ? "media_url" : "url";
-                    xhr = new XMLHttpRequest();
-                    xhr.open('GET', urlBase + encodeURIComponent(node.href));
-                    xhr.responseType = "json";
-                    xhr.onload = function () {
-                        node.dataset["imageSrc"] = this.response[paramName];
-                        node.classList.add("light-box-thumbnail");
-                    };
-                    xhr.send();
+                    OEmbedIt(node);
                 }
 
             } else if (/^https?:\/\/instagram\.com\/p\//.test(node.href)) {
-                urlBase = isStandAlone ? "//noembed.com/embed?url=" : "https://api.instagram.com/oembed?url=";
-                paramName = isStandAlone ? "media_url" : "thumbnail_url";
-                xhr = new XMLHttpRequest();
-                xhr.open('GET', urlBase + encodeURIComponent(node.href));
-                xhr.responseType = "json";
-                xhr.onload = function () {
-                    node.dataset["imageSrc"] = this.response[paramName];
-                    node.classList.add("light-box-thumbnail");
-                };
-                xhr.send();
+                OEmbedIt(node);
 
             } else if (/^http:\/\/imgur\.com\//.test(node.href)) {
                 node.dataset["imageSrc"] = "http://i.imgur.com/" + node.href.match(/^http:\/\/imgur\.com\/(gallery\/)?([^#]+)/)[2] + ".jpg";

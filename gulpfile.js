@@ -5,19 +5,22 @@ var
     insert = require('gulp-insert'),
     uglify = require('gulp-uglify'),
     watch = require('gulp-watch'),
-    template = require('gulp-template'),
-    rename = require("gulp-rename");
+    template = require('gulp-template');
 
-gulp.task('sac', function () {
+gulp.task('default', function () {
     var scripts = [];
     manifest.content_scripts.forEach(function (cs) {
         scripts = scripts.concat(cs.js);
     });
+
+    gulp.src(['templates/*'])
+        .pipe(template({version: manifest.version}))
+        .pipe(gulp.dest('.'));
+
     gulp.src(scripts)
         .pipe(concat('ffco-sac.min.js'))
         .pipe(insert.prepend(
             "(function(){\n" +
-            "var _myVersion = \"" + manifest.version + "\",\n" +
             "   doIt = function() {\n" +
             "\n"
         ))
@@ -38,15 +41,9 @@ gulp.task('sac', function () {
             " */\n"
         ))
         .pipe(gulp.dest('.'));
-
-    // User.js
-    gulp.src(['ffco-sac.user-tpl.js'])
-        .pipe(template({version: manifest.version}))
-        .pipe(rename('ffco-sac.user.js'))
-        .pipe(gulp.dest('.'));
 });
 
-gulp.task('sac-watch', function () {
-    watch(["./actions/*.js", "./common.js", "./content-script.js", "./manifest.json"], function () { gulp.start('sac'); });
+gulp.task('watch', function () {
+    watch(["./actions/*", "./templates/*", "./lib.js", "./init.js", "./manifest.json"], function () { gulp.start('default'); });
 });
 

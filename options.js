@@ -1,14 +1,15 @@
-document.addEventListener("DOMContentLoaded", function () {
-    loadSettings.then(function (settings) {
-        var sPage = document.querySelector(".content.settings");
-        var checkBoxes = toArray(sPage.querySelectorAll("input[type='checkbox']"));
-        var saveBtn = document.getElementById("save-settings");
+docLoaded.then(function () {
+    document.querySelector(".version").appendChild(document.createTextNode("v. " + frfCoVersion));
 
+    var sPage = document.querySelector(".content.settings");
+    var checkBoxes = toArray(sPage.querySelectorAll("input[type='checkbox']"));
+
+    settingsStore.loadSettings().then(function (settings) {
         checkBoxes.forEach(function (box) {
             box.checked = settings[box.value];
         });
-        sPage.style.display = "block";
-        sPage.previousElementSibling.style.display = "none";
+        sPage.classList.remove("hidden");
+        sPage.previousElementSibling.classList.add("hidden");
 
         Cell
             .fromInput(sPage.querySelector("[value='replyLinks']"), "change", "checked")
@@ -18,15 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 sPage.querySelector("[value='highlightAuthorComments']").disabled = !ok;
                 sPage.querySelector("[value='newLines']").disabled = !ok;
             });
-
-
-        saveBtn.addEventListener("click", function () {
-            saveBtn.disabled = true;
-            checkBoxes.forEach(function (box) {
-                settings[box.value] = box.checked;
-            });
-            saveSettings(settings, function () { saveBtn.disabled = false; });
-        }, false);
     });
+
+    document.getElementById("save-settings").addEventListener("click", function (e) {
+        var saveBtn = e.target;
+        saveBtn.disabled = true;
+        checkBoxes.forEach(function (box) { settings[box.value] = box.checked; });
+        settingsStore.saveSettings(settings).then(function () { saveBtn.disabled = false; });
+    }, false);
 });
 

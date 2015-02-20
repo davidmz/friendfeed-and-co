@@ -3,115 +3,122 @@
 <head>
     <meta charset="utf-8">
     <title>FriendFeed &amp; Co, настройки</title>
-    <link rel="stylesheet" type="text/css" href="chrome-bootstrap.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <style>
+        label {
+            font-weight: normal;
+        }
+
         p.shift {
-            padding-left: 1.5em;
+            padding-left: 2.5em;
         }
     </style>
-    <script src="common.js"></script>
+    <script src="vars.js"></script>
+    <script src="lib.js"></script>
+    <script src="init.js"></script>
     <script src="xcell.js"></script>
     <script src="options.js"></script>
 </head>
-<body class="chrome-bootstrap">
-<div class="frame">
-    <div class="navigation">
-        <h1>FriendFeed &amp;&nbsp;Co</h1>
-        <ul class="menu">
-            <li>&nbsp;</li>
-            <li>
-                <a href="https://github.com/davidmz/friendfeed-and-co" target="_blank">GitHub</a>
-            </li>
-        </ul>
+<body>
+
+<div class="container">
+    <ul class="breadcrumb">
+        <li>
+            <strong>FriendFeed &amp;&nbsp;Co</strong>
+            <small class="version"></small>
+        </li>
+        <li><a href="https://github.com/davidmz/friendfeed-and-co" target="_blank">Исходники на GitHub</a></li>
+        <li><a href="https://friendfeed.com/davidmz/db3867e6/src" target="_blank">Обсуждение на FrF</a></li>
+    </ul>
+
+    <h2>Настройки</h2>
+
+    <div class="content loading">
+        <p>Загрузка&hellip;</p>
     </div>
-    <div class="mainview view">
-        <div class="selected">
-            <header>
-                <h1>Настройки</h1>
-            </header>
-            <div class="content loading">
-                Загрузка&hellip;
-            </div>
-            <div class="content settings" style="display: none;">
-                <p>
-                    <label>
-                        <input type="checkbox" value="fixNames">
-                        Юзернеймы заменяются на логины пользователей.
-                    </label>
-                </p>
 
-                <p>
-                    <label>
-                        <input type="checkbox" value="replyLinks">
-                        Улучшения в комментариях. По клику на «облачко» (или юзерпик) около комментария открывается поле
-                        ввода и в него
-                        вставляется @login автора комментария. Если при клике зажата клавиша Ctrl (Cmd на маках), то
-                        вставляется строка вида
-                        ^^^ — «ссылка» на кликнутый комментарий. Вместе с Ctrl/Cmd можно также зажать и Shift.
-                        В комментариях распознаются @login-ы и заменяются на ссылки на профили.
-                    </label>
-                </p>
+    <div class="content settings hidden">
+        <p>
+            <label>
+                <input type="checkbox" value="fixNames">
+                Юзернеймы заменяются на логины пользователей.
+            </label>
+        </p>
 
-                <p class="shift">
-                    <label>
-                        <input type="checkbox" value="withAvatars">
-                        «Облачко» около комментария заменяется на юзерпик его автора.
-                    </label>
-                </p>
+        <p>
+            <label>
+                <input type="checkbox" value="replyLinks">
+                Улучшения в комментариях. По клику на «облачко» (или юзерпик) около комментария открывается поле
+                ввода и в него
+                вставляется <code>@login</code> автора комментария. Если при клике зажата клавиша <kbd>Ctrl</kbd> (на
+                маках — <kbd>Cmd</kbd>), то
+                вставляется строка вида
+                <code>^^^</code> — «ссылка» на кликнутый комментарий. Вместе с <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> можно
+                также зажать и <kbd>Shift</kbd>.
+                В комментариях распознаются <code>@login</code>-ы и заменяются на ссылки на профили.
+            </label>
+        </p>
 
-                <p class="shift">
-                    <label>
-                        <input type="checkbox" value="highlightRefComments">
-                        При наведении мыши на @login внутри комментария, подсвечиваются комментарии этого автора.
-                        Также работает с ^^^/↑↑↑.
-                    </label>
-                </p>
+        <p class="shift">
+            <label>
+                <input type="checkbox" value="withAvatars">
+                «Облачко» около комментария заменяется на юзерпик его автора.
+            </label>
+        </p>
 
-                <p class="shift">
-                    <label>
-                        <input type="checkbox" value="highlightAuthorComments">
-                        Комментарии автора поста для заметности помечаются точечкой.
-                    </label>
-                </p>
+        <p class="shift">
+            <label>
+                <input type="checkbox" value="highlightRefComments">
+                При наведении мыши на @login внутри комментария, подсвечиваются комментарии этого автора.
+                Также работает с <code>^^^</code>/<code>↑↑↑</code>.
+            </label>
+        </p>
 
-                <p class="shift">
-                    <label>
-                        <input type="checkbox" value="newLines">
-                        В постах и комментариях можно использовтаь переводы строк (вставляются через Shift+Enter).
-                    </label>
-                </p>
+        <p class="shift">
+            <label>
+                <input type="checkbox" value="highlightAuthorComments">
+                Комментарии автора поста для заметности помечаются точечкой.
+            </label>
+        </p>
 
-                <p>
-                    <label>
-                        <input type="checkbox" value="openImages">
-                        Изображения, прикреплённые к постам, открываются в браузере (по умолчанию FF их скачивает на
-                        диск).
-                    </label>
-                </p>
+        <p class="shift">
+            <label>
+                <input type="checkbox" value="newLines">
+                В постах и комментариях можно использовтаь переводы строк (вставляются через <kbd>Shift + Enter</kbd>).
+            </label>
+        </p>
 
-                <p>
-                    <label>
-                        <input type="checkbox" value="lightBoxedImages">
-                        Изображения по возможности открываются в «лайтбоксе» на странице FF.
-                        Ссылка из лайтбокса ведёт на страницу изображения.
-                    </label>
-                </p>
+        <p>
+            <label>
+                <input type="checkbox" value="openImages">
+                Изображения, прикреплённые к постам, открываются в браузере (по умолчанию FrF их скачивает на
+                диск).
+            </label>
+        </p>
 
-                <p>
-                    <label>
-                        <input type="checkbox" value="killDuck">
-                        В теме “Duck Hunt” не показывается утка.
-                    </label>
-                </p>
+        <p>
+            <label>
+                <input type="checkbox" value="lightBoxedImages">
+                Изображения по возможности открываются в «лайтбоксе» на странице FrF.
+                Ссылка из лайтбокса ведёт на страницу изображения.
+            </label>
+        </p>
 
-                <p>
-                    <button id="save-settings">Сохранить настройки</button>
-                </p>
-                <p>
-                    Обновите окно FriendFeed-а, чтобы изменения вступили в силу.
-                </p>
-            </div>
-        </div>
+        <p>
+            <label>
+                <input type="checkbox" value="killDuck">
+                В теме “Duck Hunt” не показывается утка.
+            </label>
+        </p>
+
+        <p>
+            <button id="save-settings" class="btn btn-default">Сохранить настройки</button>
+        </p>
+        <p class="help-block">
+            Обновите окно FriendFeed-а, чтобы изменения вступили в силу.
+        </p>
     </div>
 </div>
 </body>
