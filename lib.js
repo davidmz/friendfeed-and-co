@@ -24,7 +24,7 @@ function closestParent(element, selector, withSelf) {
 
 var docLoaded = new Promise(function (resolve) {
     if (/* inChromeExt ||*/ document.readyState === 'complete' || document.readyState === 'interactive') {
-        resolve();
+        setTimeout(resolve, 0);
     } else {
         document.addEventListener("DOMContentLoaded", resolve);
     }
@@ -106,14 +106,14 @@ var settingsStoreFrame = {
         var self = this;
         return new Promise(function (resolve) {
             self.loadResolver = resolve;
-            window.parent.contentWindow.postMessage({action: "getSettings", value: null}, self.parentOrigin);
+            window.parent.postMessage({action: "getSettings", value: null}, self.parentOrigin);
         });
     },
 
     saveSettings: function (settings) {
         var self = this;
         return new Promise(function (resolve) {
-            window.parent.contentWindow.postMessage({action: "saveSettings", value: settings}, self.parentOrigin);
+            window.parent.postMessage({action: "saveSettings", value: settings}, self.parentOrigin);
             setTimeout(resolve, 0);
         });
     }

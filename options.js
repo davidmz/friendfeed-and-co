@@ -24,6 +24,7 @@ docLoaded.then(function () {
     document.getElementById("save-settings").addEventListener("click", function (e) {
         var saveBtn = e.target;
         saveBtn.disabled = true;
+        var settings = {};
         checkBoxes.forEach(function (box) { settings[box.value] = box.checked; });
         settingsStore.saveSettings(settings).then(function () { saveBtn.disabled = false; });
     }, false);
