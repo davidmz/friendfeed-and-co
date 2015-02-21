@@ -8,7 +8,7 @@ https://github.com/davidmz/friendfeed-and-co/raw/master/ffco-sac.user.js
 
 Для запуска юзерскриптов есть разные плагины к разным браузерам, например,
 для Firefox можно использовать Greasemonkey (https://addons.mozilla.org/ru/firefox/addon/greasemonkey/),
-а для Safari - при помощи Tampermonkey (http://tampermonkey.net/index.php?ext=dhdg&browser=safari).
+а для Safari - Tampermonkey (http://tampermonkey.net/index.php?ext=dhdg&browser=safari).
 
 Ветка обсуждения во FriendFeed-е:
 https://friendfeed.com/davidmz/db3867e6/src
