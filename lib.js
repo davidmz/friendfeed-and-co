@@ -2,7 +2,11 @@ var inChromeExt = (typeof chrome !== "undefined" && typeof chrome.extension !== 
 var scriptRoot = inChromeExt ? null : document.currentScript.src.replace(/[a-z.-]+\.js([?#]|$)/, "");
 
 var getSettings = function (toApply) {
-    var settingsNames = ["fixNames", "replyLinks", "openImages", "lightBoxedImages", "killDuck", "withAvatars", "highlightRefComments", "highlightAuthorComments", "newLines"];
+    var settingsNames = [
+        "fixNames", "replyLinks", "openImages", "lightBoxedImages",
+        "killDuck", "withAvatars", "highlightRefComments", "highlightAuthorComments",
+        "newLines", "markLinks"
+    ];
     toApply = toApply || {};
     var settings = {};
     settingsNames.forEach(function (name) {

@@ -1,6 +1,6 @@
 {
     "name": "FriendFeed & Co",
-    "version": "1.34",
+    "version": "1.35",
     "description": "Разные дополнительные удобства во FriendFeed-е",
     "manifest_version": 2,
     "icons": {
@@ -26,7 +26,8 @@
                 "actions/comments-avatars.js",
                 "actions/comments-hl-refs.js",
                 "actions/comments-mark-author.js",
-                "actions/newlines.js"
+                "actions/newlines.js",
+                "actions/mark-links.js"
             ],
             "css": ["content.css"]
         }
