@@ -39,6 +39,10 @@ if (inChromeExt) { // Расширение
 
 }
 
+if (!inChromeExt && ('ffc-sac-version' in localStorage)) {
+    frfCoVersion = localStorage['ffc-sac-version'];
+}
+
 docLoaded.then(function () {
     settingsStore.init();
     settingsStore.loadSettings().then(function (s) {

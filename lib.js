@@ -27,7 +27,7 @@ function closestParent(element, selector, withSelf) {
 }
 
 var docLoaded = new Promise(function (resolve) {
-    if (/* inChromeExt ||*/ document.readyState === 'complete' || document.readyState === 'interactive') {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
         setTimeout(resolve, 0);
     } else {
         document.addEventListener("DOMContentLoaded", resolve);
@@ -71,6 +71,28 @@ var settingsStoreSAC = {
             }
             if ("action" in event.data && event.data["action"] === "saveSettings") {
                 self.saveSettings(event.data["value"]);
+            }
+            if ("action" in event.data && event.data["action"] === "checkUpdates") {
+                var now = Date.now();
+                localStorage['ffc-sac-next-update'] = now + 3600 * 1000;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://rawgit.com/davidmz/friendfeed-and-co/master/manifest.json');
+                xhr.onload = function () {
+                    try {
+                        var manifest = JSON.parse(this.response);
+                        if ('version' in manifest) {
+                            localStorage['ffc-sac-version'] = manifest.version;
+                            localStorage['ffc-sac-next-update'] = now + 24 * 3600 * 1000;
+                            if (manifest.version != frfCoVersion) {
+                                alert("Доступна новая версия: " + manifest.version + ". Она будет установлена после перезагрузки страницы.");
+                            } else {
+                                alert("У вас установлена последняя версия");
+                            }
+                        }
+                    } catch (e) {
+                    }
+                };
+                xhr.send();
             }
         });
     },

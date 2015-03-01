@@ -27,5 +27,14 @@ docLoaded.then(function () {
         checkBoxes.forEach(function (box) { settings[box.value] = box.checked; });
         settingsStore.saveSettings(settings).then(function () { saveBtn.disabled = false; });
     }, false);
+
+    if (!inChromeExt) {
+        var refreshBtn = document.getElementById("check-updates");
+        refreshBtn.classList.remove("hidden");
+        refreshBtn.addEventListener("click", function () {
+            refreshBtn.disabled = true;
+            window.parent.postMessage({action: "checkUpdates", value: null}, location.protocol + "//friendfeed.com");
+        }, false);
+    }
 });
 
