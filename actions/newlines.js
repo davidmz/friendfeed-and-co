@@ -25,14 +25,19 @@
         node = node || document.body;
 
         toArray(node.querySelectorAll(".comment .content, .entry .text")).forEach(function (node) {
-            var c = node.firstChild, changed = false;
+            var c = node.firstChild,
+                changed = false,
+                isEntry = node.classList.contains("text"),
+                findRe = isEntry ? /[\n\u2000]/ : /\u2000/,
+                splitRe = isEntry ? /[ \t]*[\u2000\n][ \t]*/ : /[ \t]*\u2000[ \t]*/;
+
             while (c) {
-                if (c.nodeType == Node.TEXT_NODE && /\u2000/.test(c.nodeValue)) {
+                if (c.nodeType == Node.TEXT_NODE && findRe.test(c.nodeValue)) {
                     changed = true;
                     var fr = document.createDocumentFragment(),
                         nEmpties = 0;
 
-                    c.nodeValue.split(/[ \t]*\u2000[ \t]*/).forEach(function (line) {
+                    c.nodeValue.split(splitRe).forEach(function (line) {
                         nEmpties = (line === "") ? nEmpties + 1 : 0;
                         if (nEmpties > 1) return;
                         if (line !== "") fr.appendChild(document.createTextNode(line));

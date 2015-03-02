@@ -17,6 +17,30 @@ var getSettings = function (toApply) {
 
 function toArray(nl) { return Array.prototype.slice.call(nl); }
 
+function htmlSafe(s) {
+    return s.toString().replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
+}
+
+function h(tagName, attrs, children) {
+    var el = document.createElement(tagName);
+    if (typeof attrs === "object") {
+        for (var k in attrs) if (attrs.hasOwnProperty(k)) el.setAttribute(k, attrs[k]);
+    }
+    if (arguments.length > 2) {
+        for (var i = 2; i < arguments.length; i++) {
+            var ch = arguments[i];
+            if (ch instanceof Node) {
+                el.appendChild(ch);
+            } else if (typeof ch === "string") {
+                el.appendChild(document.createTextNode(ch));
+            }
+        }
+    }
+    return el;
+}
+
 function closestParent(element, selector, withSelf) {
     withSelf = withSelf || false;
     var p = withSelf ? element : element.parentNode;
