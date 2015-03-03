@@ -17,6 +17,10 @@
                         lPlay.setAttribute("play", '<iframe width="613" height="345" src="'
                         + htmlSafe("//www.youtube.com/v/" + encodeURIComponent(id) + "&autoplay=1&showsearch=0&ap=%2526fmt%3D18&fs=1")
                         + '" frameborder="0" allowfullscreen></iframe>');
+                        var th = lPlay.querySelector(".thumbnail");
+                        th.style.width = "320px";
+                        th.style.height = "180px";
+                        th.src = 'http://img.youtube.com/vi/' + id + '/mqdefault.jpg';
                     }
                 });
             } else {
@@ -46,9 +50,6 @@
                                                 alt: inf.title,
                                                 title: inf.title
                                             })
-                                        ),
-                                        h("div", {"class": "l_play", style: "left:88px;top:63px"},
-                                            h("img", {src: "/static/images/playbutton.png?v=e094", alt: "Play"})
                                         )
                                     )
                                 )
@@ -73,13 +74,10 @@
                                             + '" frameborder="0" allowfullscreen></iframe>'
                                         },
                                         h("img", {
-                                            src: 'http://img.youtube.com/vi/' + id + '/default.jpg',
+                                            src: 'http://img.youtube.com/vi/' + id + '/mqdefault.jpg',
                                             "class": "thumbnail",
-                                            style: "width:130px; height:97px"
+                                            style: "width:320px; height:180px"
                                         })
-                                    ),
-                                    h("div", {"class": "l_play", style: "left:53px;top:36px"},
-                                        h("img", {src: "/static/images/playbutton.png?v=e094", alt: "Play"})
                                     )
                                 )
                             )

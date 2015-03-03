@@ -130,3 +130,25 @@
 .comment.bottomcomment:hover::after {
     display: none;
 }
+
+a.l_play {
+    position: relative;
+}
+
+a.l_play + div.l_play {
+    display: none;
+}
+
+a.l_play::after {
+    content:     url("https://friendfeed.com/static/images/playbutton.png?v=e094");
+    position:    absolute;
+    top:         50%;
+    left:        50%;
+    margin-left: -15px;
+    margin-top:  -15px;
+}
+
+.container[playing] > a.l_play::after {
+    content: url("https://friendfeed.com/static/images/stopbutton.png?v=a009");
+}
+
