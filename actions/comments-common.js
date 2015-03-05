@@ -16,7 +16,7 @@
 
             // После редактирования комментария FF помещает его в span
             // Достаём его оттуда (это, вроде бы, ничему не вредит)
-            if (node.matches(".comments > span > .comment")) {
+            if (node.classList.contains("comment") && node.parentNode.tagName === "SPAN") {
                 var span = node.parentNode;
                 span.parentNode.insertBefore(node, span);
                 span.parentNode.removeChild(span);

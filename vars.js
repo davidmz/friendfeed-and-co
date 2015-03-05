@@ -1,1 +1,1 @@
-var frfCoVersion = "1.38";
+var frfCoVersion = "1.39";

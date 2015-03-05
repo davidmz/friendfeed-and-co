@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name FriendFeed & Co
 // @namespace https://github.com/davidmz/friendfeed-and-co
-// @version 1.38
+// @version 1.39
 // @description Some cool features for FriendFeed
 // @include https://friendfeed.com/*
 // @include http://friendfeed.com/*
 // @icon https://cdn.rawgit.com/davidmz/friendfeed-and-co/master/icon128.png
 // ==/UserScript==
 (function () {
-    var version = '1.38',
+    var version = '1.39',
         nextUpdate = 0,
         now = Date.now();
 

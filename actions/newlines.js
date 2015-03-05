@@ -1,4 +1,14 @@
 (function () {
+    var ZeroSpace = "\u200B";
+
+    var prePost = function (ta) {
+        var isEntry = (closestParent(ta, ".editentryform, .sharebox") !== null);
+        ta.value = ta.value.replace(/^\n+/, "").replace(/\n+$/, "");
+        if (!isEntry) {
+            ta.value = ta.value.replace(/\n/g, "\n" + ZeroSpace);
+        }
+    };
+
     registerAction(function (node) {
         if (!settings["newLines"]) return;
 
@@ -8,7 +18,7 @@
                     if (e.shiftKey) {
                         e.stopPropagation();
                     } else {
-                        e.target.value = e.target.value.replace(/^\n+/, "").replace(/\n+$/, "").replace(/\n/g, "\u2000");
+                        prePost(e.target);
                     }
                 }
             }, true);
@@ -16,7 +26,7 @@
             document.addEventListener('submit', function (e) {
                 var txtA = e.target.querySelector("textarea[name='body']");
                 if (txtA && txtA.matches(".editentryform textarea, .commentform textarea, .sharebox textarea")) {
-                    txtA.value = txtA.value.replace(/^\n+/, "").replace(/\n+$/, "").replace(/\n/g, "\u2000");
+                    prePost(txtA);
                 }
             }, true);
 
@@ -28,8 +38,8 @@
             var c = node.firstChild,
                 changed = false,
                 isEntry = node.classList.contains("text"),
-                findRe = isEntry ? /[\n\u2000]/ : /\u2000/,
-                splitRe = isEntry ? /[ \t]*[\u2000\n][ \t]*/ : /[ \t]*\u2000[ \t]*/;
+                findRe = isEntry ? /[\n\u2000]/ : /\u2000|\u200B/,
+                splitRe = isEntry ? /[ \t]*[\u2000\n][ \t]*/ : /[ \t]*\u2000|\u200B[ \t]*/;
 
             while (c) {
                 if (c.nodeType == Node.TEXT_NODE && findRe.test(c.nodeValue)) {
@@ -55,8 +65,8 @@
             if (changed) node.normalize();
         });
 
-        toArray(node.querySelectorAll(".editentryform textarea, .commentform textarea, .sharebox textarea")).forEach(function (node) {
-            node.value = node.value.replace(/\u2000/g, "\n");
+        toArray(node.querySelectorAll("textarea")).forEach(function (node) {
+            node.value = node.value.replace(/\u200B/g, "").replace(/\u2000/g, "\n");
         });
 
     });
