@@ -38,18 +38,10 @@
         xhr.send();
     }
 
-    var scriptRoot = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v' + version;
-
     var e = document.createElement("script");
-    e.src = scriptRoot + '/ffco-sac.min.js';
+    e.src = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v' + version + '/ffco-sac.min.js';
     e.type = "text/javascript";
     e.charset = "utf-8";
     e.async = true;
     document.head.appendChild(e);
-
-    var link = document.createElement("link");
-    link.setAttribute("rel", "stylesheet");
-    link.setAttribute("type", "text/css");
-    link.setAttribute("href", scriptRoot + "/content.css");
-    document.head.appendChild(link);
 })();
