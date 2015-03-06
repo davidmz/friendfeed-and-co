@@ -2,6 +2,11 @@
     registerAction(function (node) {
         node = node || document.body;
 
+        toArray(node.querySelectorAll(".container a[href*='akamai.coub.com/get/']")).forEach(function (a) {
+            var p = closestParent(a, ".images.media");
+            p.parentNode.removeChild(p);
+        });
+
         toArray(node.querySelectorAll(".entry .ebody")).forEach(function (ebody) {
             var ws = ebody.querySelectorAll(".media a.l_play");
             if (ws.length > 0) {
@@ -20,17 +25,29 @@
                         var th = lPlay.querySelector(".thumbnail");
                         th.style.width = "320px";
                         th.style.height = "180px";
-                        th.src = 'http://img.youtube.com/vi/' + id + '/mqdefault.jpg';
+                        th.src = '//img.youtube.com/vi/' + id + '/mqdefault.jpg';
                     }
                 });
             } else {
                 // Смотрим ссылки в тексте
-                var links = ebody.querySelectorAll(".text a:not([href^='http://friendfeed.com/search?q='])");
-                if (links.length === 1) {
-                    var link = links[0], m, id;
+                var linkCount = 0, link;
+                toArray(ebody.querySelectorAll(".text a")).forEach(function (l) {
+                    if (
+                        l.href.indexOf("//friendfeed.com/") !== -1 && l.firstChild.nodeValue.charAt(0) === "#" ||
+                        l.href.indexOf("//search.twitter.com/") !== -1 && l.firstChild.nodeValue.charAt(0) === "#" ||
+                        l.href === "http://twitter.com/coub" && l.firstChild.nodeValue === "coub"
+                    ) {
+                        return;
+                    }
+                    linkCount++;
+                    link = l;
+                });
+
+                if (linkCount === 1) {
+                    var m, id, xhr;
                     if ((m = link.href.match(/^https?:\/\/vimeo\.com\/(\d+)/)) !== null) {
                         id = m[1];
-                        var xhr = new XMLHttpRequest();
+                        xhr = new XMLHttpRequest();
                         xhr.open('GET', "https://vimeo.com/api/v2/video/" + id + ".json");
                         xhr.responseType = "json";
                         xhr.onload = function () {
@@ -74,7 +91,7 @@
                                             + '" frameborder="0" allowfullscreen></iframe>'
                                         },
                                         h("img", {
-                                            src: 'http://img.youtube.com/vi/' + id + '/mqdefault.jpg',
+                                            src: '//img.youtube.com/vi/' + id + '/mqdefault.jpg',
                                             "class": "thumbnail",
                                             style: "width:320px; height:180px"
                                         })
@@ -83,6 +100,46 @@
                             )
                         );
                     }
+
+                    if (
+                        (m = link.href.match(/^http:\/\/coub\.com\/view\/(\w+)/)) !== null ||
+                        (m = link.title.match(/^http:\/\/coub\.com\/view\/(\w+)/)) !== null
+                    ) {
+                        id = m[1];
+                        xhr = new XMLHttpRequest();
+                        xhr.open('GET', "https://davidmz.me/oembed/coub/oembed.json?url=http://coub.com/view/" + id);
+                        xhr.responseType = "json";
+                        xhr.onload = function () {
+                            var inf = this.response;
+                            var hi = 345;
+                            var w = Math.round(inf.width * hi / inf.height);
+                            if (w > 613) {
+                                hi = Math.round(hi * 613 / w);
+                                w = 613;
+                            }
+                            ebody.appendChild(h("div", {"class": "images media"},
+                                    h("div", {"class": "container"},
+                                        h("a", {
+                                                rel: "nofollow",
+                                                href: inf.url,
+                                                "class": "l_play",
+                                                play: '<iframe src="//coub.com/embed/' + id + '?muted=false&autostart=true&originalSize=false&hideTopBar=false&startWithHD=true" allowfullscreen="true" frameborder="0" width="' + w + '" height="' + hi + '"></iframe>'
+                                            },
+                                            h("img", {
+                                                src: inf.thumbnail_url,
+                                                "class": "thumbnail",
+                                                style: "width:auto; height:180px",
+                                                alt: inf.title,
+                                                title: inf.title
+                                            })
+                                        )
+                                    )
+                                )
+                            );
+                        };
+                        xhr.send();
+                    }
+
                 }
             }
         });

@@ -140,7 +140,7 @@ a.l_play + div.l_play {
 }
 
 a.l_play::after {
-    content:     url("https://friendfeed.com/static/images/playbutton.png?v=e094");
+    content:     url("//friendfeed.com/static/images/playbutton.png?v=e094");
     position:    absolute;
     top:         50%;
     left:        50%;
@@ -149,6 +149,6 @@ a.l_play::after {
 }
 
 .container[playing] > a.l_play::after {
-    content: url("https://friendfeed.com/static/images/stopbutton.png?v=a009");
+    content: url("//friendfeed.com/static/images/stopbutton.png?v=a009");
 }
 
