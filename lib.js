@@ -1,5 +1,4 @@
 var inChromeExt = (typeof chrome !== "undefined" && typeof chrome.extension !== "undefined");
-var scriptRoot = inChromeExt ? null : document.currentScript.src.replace(/[a-z.-]+\.js([?#]|$)/, "");
 
 var getSettings = function (toApply) {
     var settingsNames = [

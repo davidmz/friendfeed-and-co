@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name FriendFeed & Co
 // @namespace https://github.com/davidmz/friendfeed-and-co
-// @version 1.40
+// @version 1.41
 // @description Some cool features for FriendFeed
 // @include https://friendfeed.com/*
 // @include http://friendfeed.com/*
 // @icon https://cdn.rawgit.com/davidmz/friendfeed-and-co/master/icon128.png
 // ==/UserScript==
 (function () {
-    var version = '1.40',
+    var version = '1.41',
         nextUpdate = 0,
         now = Date.now();
 
@@ -38,10 +38,18 @@
         xhr.send();
     }
 
+    var scriptRoot = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v' + version;
+
     var e = document.createElement("script");
-    e.src = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v' + version + '/ffco-sac.min.js';
+    e.src = scriptRoot + '/ffco-sac.min.js';
     e.type = "text/javascript";
     e.charset = "utf-8";
     e.async = true;
     document.head.appendChild(e);
+
+    var link = document.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("type", "text/css");
+    link.setAttribute("href", scriptRoot + "/content.css");
+    document.head.appendChild(link);
 })();

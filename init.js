@@ -21,15 +21,6 @@ if (inChromeExt) { // Расширение
 
 } else if (location.hostname === "friendfeed.com") { // Встроенный скрипт
     settingsStore = settingsStoreSAC;
-    // CSS
-    docLoaded.then(function () {
-        var cssUrl = scriptRoot + "content.css";
-        var link = document.createElement("link");
-        link.setAttribute("rel", "stylesheet");
-        link.setAttribute("type", "text/css");
-        link.setAttribute("href", cssUrl);
-        document.head.appendChild(link);
-    });
 
 } else if (window.parent) { // Фрейм настроек
     settingsStore = settingsStoreFrame;

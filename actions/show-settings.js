@@ -10,7 +10,7 @@ registerAction(function (node) {
         if (inChromeExt) {
             window.open(chrome.extension.getURL("options.html"));
         } else {
-            var settingsUrl = scriptRoot + "options.html";
+            var settingsUrl = frfScriptRoot + "/options.html";
             var lightBoxHTML = '<!--suppress HtmlUnknownTarget --><div class="light-box-shadow"><div class="light-box-container"><iframe src="{{URL}}" class="light-box-iframe" frameborder="0"></iframe></div></div>';
             var lightBox = document.querySelector(".frf-co-light-box");
             lightBox.innerHTML = lightBoxHTML.replace("{{URL}}", settingsUrl);
