@@ -1,2 +1,1 @@
-var frfCoVersion = "1.42";
-var frfScriptRoot = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v' + frfCoVersion;
+var frfCoVersion="1.43",frfScriptRoot="//cdn.rawgit.com/davidmz/friendfeed-and-co/v"+frfCoVersion;

@@ -11,6 +11,7 @@ var
 gulp.task('templates-replace', function () {
     return gulp.src(['templates/*'])
         .pipe(template({version: manifest.version}))
+        .pipe(uglify({preserveComments: "all"}))
         .pipe(gulp.dest('.'));
 });
 

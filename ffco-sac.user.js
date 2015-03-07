@@ -1,47 +1,10 @@
 // ==UserScript==
 // @name FriendFeed & Co
 // @namespace https://github.com/davidmz/friendfeed-and-co
-// @version 1.42
+// @version 1.43
 // @description Some cool features for FriendFeed
 // @include https://friendfeed.com/*
 // @include http://friendfeed.com/*
 // @icon https://cdn.rawgit.com/davidmz/friendfeed-and-co/master/icon128.png
 // ==/UserScript==
-(function () {
-    var version = '1.42',
-        nextUpdate = 0,
-        now = Date.now();
-
-    if ('ffc-sac-version' in localStorage) {
-        version = localStorage['ffc-sac-version'];
-        nextUpdate = parseInt(localStorage['ffc-sac-next-update']);
-        if (isNaN(nextUpdate)) {
-            nextUpdate = 0;
-        }
-    }
-
-    if (now > nextUpdate) {
-        localStorage['ffc-sac-next-update'] = now + 3600 * 1000;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://rawgit.com/davidmz/friendfeed-and-co/master/manifest.json');
-        xhr.onload = function () {
-            try {
-                var manifest = JSON.parse(this.response);
-                if ('version' in manifest) {
-                    console.log(manifest.version);
-                    localStorage['ffc-sac-version'] = manifest.version;
-                    localStorage['ffc-sac-next-update'] = now + 24 * 3600 * 1000;
-                }
-            } catch (e) {
-            }
-        };
-        xhr.send();
-    }
-
-    var e = document.createElement("script");
-    e.src = '//cdn.rawgit.com/davidmz/friendfeed-and-co/v' + version + '/ffco-sac.min.js';
-    e.type = "text/javascript";
-    e.charset = "utf-8";
-    e.async = true;
-    document.head.appendChild(e);
-})();
+!function(){var e,n="1.43",t=0,a=Date.now(),r=localStorage,s=parseInt,i="ffc-sac-version",o="ffc-sac-next-update",c=function(e,n){var t,a=e.split("."),r=n.split("."),i=a.length,o=r.length,c=Math.min(i,o);for(t=0;c>t;t++){if(s(a[t])<s(r[t]))return-1;if(s(a[t])>s(r[t]))return 1}return o>i?-1:i>o?1:0};if(i in r&&((e=c(r[i],n))>0?n=r[i]:0>e&&(r[i]=n),t=s(r[o]),isNaN(t)&&(t=0)),a>t){r[o]=a+36e5;var d=new XMLHttpRequest;d.open("GET","https://rawgit.com/davidmz/friendfeed-and-co/master/manifest.json"),d.responseType="json",d.onload=function(){var e=this.response;"version"in e&&(r[i]=e.version,r[o]=a+864e5)},d.send()}var f=document.createElement("script");f.src="//cdn.rawgit.com/davidmz/friendfeed-and-co/v"+n+"/ffco-sac.min.js",f.type="text/javascript",f.charset="utf-8",f.async=!0,document.head.appendChild(f)}();
