@@ -1,1 +1,1 @@
-var frfCoVersion="1.44",frfScriptRoot="//cdn.rawgit.com/davidmz/friendfeed-and-co/v"+frfCoVersion;
+var frfCoVersion="1.45",frfScriptRoot="//cdn.rawgit.com/davidmz/friendfeed-and-co/v"+frfCoVersion;

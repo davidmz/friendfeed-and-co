@@ -49,6 +49,15 @@ function closestParent(element, selector, withSelf) {
     return null;
 }
 
+/**
+ * @param {Node} node
+ * @param {String} selector
+ * @return {Array<HTMLElement>}
+ */
+function selectAll(node, selector) {
+    return toArray(node.querySelectorAll(selector));
+}
+
 var docLoaded = new Promise(function (resolve) {
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         setTimeout(resolve, 0);

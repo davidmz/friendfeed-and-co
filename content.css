@@ -10,6 +10,46 @@
     min-height:  18px;
 }
 
+.frf-co-light-box.hidden { display: none; }
+
+.light-box-arrow {
+    position:   absolute;
+    left:       0;
+    top:        50%;
+    margin-top: -60px;
+    width:      90px;
+    height:     120px;
+    color:      #fff;
+    cursor:     pointer;
+}
+
+.light-box-arrow:hover { background: rgba(255, 255, 255, 0.1); }
+
+.light-box-arrow::before {
+    content:      "";
+    position:     absolute;
+    left:         20px;
+    top:          50%;
+    margin-top:   -15px;
+    width:        30px;
+    height:       30px;
+    border-top:   5px solid;
+    border-right: 5px solid;
+    transform:    rotate(45deg)
+}
+
+.light-box-arrow.left::before {
+    left:      auto;
+    right:     20px;
+    transform: rotate(-135deg)
+}
+
+.light-box-arrow.right { left: auto; right: 0; }
+
+.frf-co-light-box.first .light-box-arrow.left { display: none; }
+
+.frf-co-light-box.last .light-box-arrow.right { display: none; }
+
 .light-box-shadow {
     position:        fixed;
     top:             0;
@@ -154,3 +194,18 @@ a.l_play::after {
     content: url("//friendfeed.com/static/images/stopbutton.png?v=a009");
 }
 
+.entry .media img {
+    margin-bottom: 8px;
+}
+
+.show-more--items {
+    display: none;
+}
+
+.show-more--link {
+    display:    inline-block;
+    width:      32px;
+    height:     32px;
+    background: url(//friendfeed.com/static/images/more.png) no-repeat center;
+    cursor:     pointer;
+}
