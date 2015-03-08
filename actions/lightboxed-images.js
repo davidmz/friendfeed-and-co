@@ -177,9 +177,17 @@
 
             document.body.addEventListener("click", function (e) {
                 if (e.target.matches(".show-more--link")) {
-                    e.target.style.display = "none";
-                    e.target.nextSibling.style.display = "inline";
-                    selectAll(e.target.nextSibling, ".thumbnail").forEach(function (node) { node.src = node.dataset["src"]; });
+                    e.target.classList.toggle("expanded");
+                    var items = e.target.previousSibling;
+                    if (items.style.display === "none") {
+                        items.style.display = "inline";
+                        if (!items.classList.contains("ready")) {
+                            items.classList.add("ready");
+                            selectAll(items, ".thumbnail").forEach(function (node) { node.src = node.dataset["src"]; });
+                        }
+                    } else {
+                        items.style.display = "none";
+                    }
                     return;
                 }
 
@@ -265,7 +273,7 @@
                     });
                 var newMedia = document.createElement("div");
                 newMedia.className = "images media";
-                newMedia.innerHTML = visibleItems.join("") + '<span class="show-more--link"></span><span class="show-more--items">' + invisibleItems.join("") + '</span>';
+                newMedia.innerHTML = visibleItems.join("") + '<span style="display: none">' + invisibleItems.join("") + '</span><span class="show-more--link"></span>';
                 media.parentNode.insertBefore(newMedia, media);
                 media.parentNode.removeChild(media);
                 media.innerHTML = "";
