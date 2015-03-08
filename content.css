@@ -53,27 +53,31 @@
 .frf-co-light-box.last .light-box-arrow.right { display: none; }
 
 .light-box-shadow {
-    position:        fixed;
-    top:             0;
-    left:            0;
-    width:           100%;
-    height:          100%;
-    display:         -webkit-flex;
-    display:         flex;
-    justify-content: center;
-    align-items:     center;
-    z-index:         100;
-    cursor:          zoom-out;
-    background:      rgba(0, 0, 0, 0.4);
+    position:                fixed;
+    top:                     0;
+    left:                    0;
+    width:                   100%;
+    height:                  100%;
+    display:                 -webkit-flex;
+    display:                 flex;
+    -webkit-justify-content: center;
+    justify-content:         center;
+    -webkit-align-items:     center;
+    align-items:             center;
+    z-index:                 100;
+    cursor:                  zoom-out;
+    background:              rgba(0, 0, 0, 0.4);
 }
 
 .light-box-container {
-    width:           90%;
-    height:          90%;
-    display:         -webkit-flex;
-    display:         flex;
-    justify-content: center;
-    align-items:     center;
+    width:                   90%;
+    height:                  90%;
+    display:                 -webkit-flex;
+    display:                 flex;
+    -webkit-justify-content: center;
+    justify-content:         center;
+    -webkit-align-items:     center;
+    align-items:             center;
 }
 
 .light-box-img {
