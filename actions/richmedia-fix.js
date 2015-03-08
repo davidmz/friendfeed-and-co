@@ -52,17 +52,15 @@
                         xhr.responseType = "json";
                         xhr.onload = function () {
                             var inf = this.response[0];
-                            ebody.appendChild(h("div", {"class": "images media"},
-                                    h("div", {"class": "container"},
-                                        h("a", {
+                            ebody.appendChild(h(".images.media",
+                                    h(".container",
+                                        h("a.l_play", {
                                                 rel: "nofollow",
                                                 href: inf.url,
-                                                "class": "l_play",
                                                 play: '<iframe width="613" height="345" src="//player.vimeo.com/video/' + id + '?autoplay=1" frameborder="0" allowfullscreen></iframe>'
                                             },
-                                            h("img", {
+                                            h("img.thumbnail", {
                                                 src: inf.thumbnail_medium,
-                                                "class": "thumbnail",
                                                 style: "width:200px; height:150px",
                                                 alt: inf.title,
                                                 title: inf.title
@@ -80,19 +78,17 @@
                         (m = link.href.match(/^https?:\/\/youtu\.be\/([^&?#]+)/)) !== null
                     ) {
                         id = m[1];
-                        ebody.appendChild(h("div", {"class": "images media"},
-                                h("div", {"class": "container"},
-                                    h("a", {
+                        ebody.appendChild(h(".images.media",
+                                h(".container",
+                                    h("a.l_play", {
                                             rel: "nofollow",
                                             href: link.href,
-                                            "class": "l_play",
                                             play: '<iframe width="613" height="345" src="'
                                             + htmlSafe("//www.youtube.com/v/" + encodeURIComponent(id) + "&autoplay=1&showsearch=0&ap=%2526fmt%3D18&fs=1")
                                             + '" frameborder="0" allowfullscreen></iframe>'
                                         },
-                                        h("img", {
+                                        h("img.thumbnail", {
                                             src: '//img.youtube.com/vi/' + id + '/mqdefault.jpg',
-                                            "class": "thumbnail",
                                             style: "width:320px; height:180px"
                                         })
                                     )
@@ -117,17 +113,15 @@
                                 hi = Math.round(hi * 613 / w);
                                 w = 613;
                             }
-                            ebody.appendChild(h("div", {"class": "images media"},
-                                    h("div", {"class": "container"},
-                                        h("a", {
+                            ebody.appendChild(h(".images.media",
+                                    h(".container",
+                                        h("a.l_play", {
                                                 rel: "nofollow",
                                                 href: inf.url,
-                                                "class": "l_play",
                                                 play: '<iframe src="//coub.com/embed/' + id + '?muted=false&autostart=true&originalSize=false&hideTopBar=false&startWithHD=true" allowfullscreen="true" frameborder="0" width="' + w + '" height="' + hi + '"></iframe>'
                                             },
-                                            h("img", {
+                                            h("img.thumbnail", {
                                                 src: inf.thumbnail_url,
-                                                "class": "thumbnail",
                                                 style: "width:auto; height:180px",
                                                 alt: inf.title,
                                                 title: inf.title

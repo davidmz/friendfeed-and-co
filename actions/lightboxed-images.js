@@ -31,12 +31,12 @@
 
     var SlideShow = function () {
         this.imageStab = "/static/images/loading.gif";
-        this.lightBoxImage = h("img", {"class": "light-box-img", src: this.imageStab});
-        this.lightBox = h("div", {"class": "frf-co-light-box first last hidden"},
-            h("div", {"class": "light-box-shadow"},
-                h("div", {"class": "light-box-container"}, this.lightBoxImage),
-                h("div", {"class": "light-box-arrow left"}),
-                h("div", {"class": "light-box-arrow right"})
+        this.lightBoxImage = h("img.light-box-img", {src: this.imageStab});
+        this.lightBox = h(".frf-co-light-box.first.last.hidden",
+            h(".light-box-shadow",
+                h(".light-box-container", this.lightBoxImage),
+                h(".light-box-arrow.left"),
+                h(".light-box-arrow.right")
             )
         );
         /**
